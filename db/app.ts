@@ -1,19 +1,20 @@
 require("dotenv").config()
 import express from "express";
 import cors from "cors";
-import apiRouter = require()
+import apiRouter = require("./routes/api-router")
 const app = express()
 app.use(cors())
-const { getEndpoints } = require(./controllers/endpoints.controller)
-const { postUsers} = require("./controllers/users.controller")
+const { getEndpoints } = require("./controller/")
+const { postUsers } = require("./controller/")
+const { uploadFiles } = require("./controller")
+app.use(express.json())
+app.use("/api", apiRouter);
 
-
-
+app.use('/api/files', fileRoutes);
 //Users
 app.post("/users", postUsers)
 
 //PDF files
-app.post("/files",  )
 app.post("/upload", uploadFiles)
 
 //Quizzes
@@ -44,7 +45,6 @@ const { handleServerErrors,
     handlePsqlErrors, 
     handleCustomErrors,
 } = require("./controllers/errors.controller")
-
 
 
 

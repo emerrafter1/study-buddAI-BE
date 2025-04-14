@@ -18,6 +18,7 @@
     "mysql2": "^3.14.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/node": "^22.14.1",
     "jest": "^29.7.0",
     "supertest": "^7.1.0",

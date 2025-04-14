@@ -4,12 +4,18 @@ import cors from "cors";
 import apiRouter = require("./routes/api-router")
 const app = express()
 app.use(cors())
-const { getEndpoints } = require("./controller/")
-const { postUsers } = require("./controller/")
-const { uploadFiles } = require("./controller/")
+import routes from "../routes"
+const { getEndpoints } = require("./controllers/endpoints_controller")
+const { postUsers } = require("../controllers/users_controller")
+const { uploadFiles } = require("../controllers/files_controller")
+const { postQuizzes, getQuizByUserId, updateQuizById, deleteQuizById } = require("../controllers/quizzes_controller")
+const { getQuestionsById, postQuestions } = require("../controllers/questions_controller")
+const { getOptionsByQuestionId, postOptions } = require("../controllers/options_controller")
+const { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } = require("../controllers/answers_controller")
+
 app.use(express.json())
 app.use("/api", apiRouter);
-app.use('/api/files', fileRoutes);
+app.use('/api/files', routes);
 
 //Users
 app.post("/users", postUsers)

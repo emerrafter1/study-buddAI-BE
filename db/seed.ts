@@ -69,3 +69,5 @@ interface SeedData {
     `);
       
   }
+
+  export default seed;

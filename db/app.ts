@@ -3,13 +3,17 @@ import express, { Application } from "express";
 import cors from "cors";
 const app = express()
 app.use(cors())
-const routes =require( "../routes")
+import { Router } from "express";
+const router = Router();
 import {Request, Response, } from 'express'
 const { handleServerErrors, 
     handlePsqlErrors, 
     handleCustomErrors,
 } = require("./controllers/errors.controller")
+import { apiRouter } from '../routes/api-router'
 
+
+export default router;
 const { getEndpoints } = require("./controllers/endpoints_controller")
 const { postUsers } = require("../controllers/users_controller")
 const { uploadFiles } = require("../controllers/files_controller")
@@ -22,7 +26,7 @@ const { postQuizAttempt, updateQuizAttemptById } = require("../controllers/quiz_
 //MIDDLEWARE
 app.use(express.json())
 app.use("/api", apiRouter);
-app.use('/api/files', routes);
+app.use('/api/files', apiRouter);
 
 //Users
 app.post("/users", postUsers)

@@ -1,8 +1,10 @@
-const { postUsers } = require("../controllers/users_controller")
+import { postUsers } from "../controllers/users_controller"
+import { Router } from "express"
+
+export const usersRouter = Router()
 
 usersRouter
 .route("/users")
-.post(postUsers)
 
 
-module.exports(usersRouter)
+

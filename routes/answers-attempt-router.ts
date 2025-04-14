@@ -1,9 +1,10 @@
-const { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } = require("../controllers/answers_attempt_controller")
+import { Router } from "express";
+import { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } from "../controllers/answers_attempt_controller";
+
+export const answersAttemptRouter = Router();
 
 answersAttemptRouter
     .route("/attempt_answer/:question_options_id")
     .get(getAnswerAttemptByOptionId)
-    .post(postAnswerAttemptByOptionId)
+    .post(postAnswerAttemptByOptionId);
 
-
-module.exports = answersAttemptRouter;

@@ -1,4 +1,7 @@
-const { postQuizzes, getQuizByUserId, updateQuizById, deleteQuizById } = require("../controllers/quizzes_controller")
+import { postQuizzes, getQuizByUserId, updateQuizById, deleteQuizById } from "../controllers/quizzes_controller";
+import { Router } from "express";
+
+export const quizzesRouter = Router();
   
   quizzesRouter
     .route("/quizzes")
@@ -14,5 +17,5 @@ const { postQuizzes, getQuizByUserId, updateQuizById, deleteQuizById } = require
     .patch(updateQuizById)
     .delete(deleteQuizById);
   
-  module.exports = quizzesRouter;
+
   

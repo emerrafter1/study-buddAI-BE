@@ -1,4 +1,7 @@
-const { getQuestionsById, postQuestions } = require("../controllers/questions_controller")
+import { getQuestionsById, postQuestions } from "../controllers/questions_controller";
+import { Router } from "express";
+
+export const questionsRouter = Router();
 
 questionsRouter
     .route("/questions/")

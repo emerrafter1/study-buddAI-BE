@@ -1,4 +1,7 @@
-const { getOptionsByQuestionId, postOptions } = require("../controllers/options_controller")
+import { getOptionsByQuestionId, postOptions } from "../controllers/options_controller";
+import { Router } from "express";
+
+export const optionsRouter = Router();
 
 optionsRouter
     .route("question_options/")
@@ -8,4 +11,3 @@ optionsRouter
     .route("/:question_id")
     .get(getOptionsByQuestionId)
 
-module.exports = optionsRouter;

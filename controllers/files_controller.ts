@@ -1,4 +1,4 @@
-const db = require("../db/connection")
+import db from "../db/connection";
 
-exports.uploadPDF = async () => {}
+export const uploadPDF = async () => {}
 

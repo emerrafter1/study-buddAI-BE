@@ -6,11 +6,11 @@ const app = express()
 app.use(cors())
 const { getEndpoints } = require("./controller/")
 const { postUsers } = require("./controller/")
-const { uploadFiles } = require("./controller")
+const { uploadFiles } = require("./controller/")
 app.use(express.json())
 app.use("/api", apiRouter);
-
 app.use('/api/files', fileRoutes);
+
 //Users
 app.post("/users", postUsers)
 

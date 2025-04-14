@@ -1,4 +1,5 @@
 import db from "../db/connection";
+import { RowDataPacket } from "mysql2";
 
 // const seed = require("../db/seeds/seed");
 // const data = require("../db/data/test-data/index");
@@ -8,23 +9,24 @@ afterAll(() => db.end());
 
 describe("seed", () => {
   describe("users table", () => {
-    test.only("users table exists", () => {
+    test("users table exists", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT EXISTS (
-            SELECT * 
+            SELECT *
             FROM information_schema.tables 
             WHERE table_name = 'users'
-          ) AS exists;`
+          ) `
         )
         .then(([rows]) => {
-          expect(rows[0].exists).toBe(1);
+          const exists = (rows[0] as { exists: number }).exists;
+          expect(exists).toBe(1);
         });
     });
 
     test("users table has user_id column as the primary key", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, extra
                           FROM information_schema.table_constraints AS tc
                           JOIN information_schema.key_column_usage AS kcu
@@ -40,7 +42,7 @@ describe("seed", () => {
 
     test("users table has password column as varying character", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                               FROM information_schema.columns
                               WHERE table_name = 'users'
@@ -55,7 +57,7 @@ describe("seed", () => {
 
     test("users table has a unique email column as varying character", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'users'
@@ -70,7 +72,7 @@ describe("seed", () => {
 
     test("users table has an email column that is unique", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name
                         FROM information_schema.table_constraints AS tc
                         JOIN information_schema.key_column_usage AS kcu
@@ -85,14 +87,14 @@ describe("seed", () => {
   });
 
   describe("files table", () => {
-    test.only("files table exists", () => {
+    test("files table exists", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT EXISTS (
             SELECT * 
             FROM information_schema.tables 
             WHERE table_name = 'files'
-          ) AS exists;`
+          );`
         )
         .then(([rows]) => {
           expect(rows[0].exists).toBe(1);
@@ -101,7 +103,7 @@ describe("seed", () => {
 
     test("files table has file_id column as the primary key", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, extra
                           FROM information_schema.table_constraints AS tc
                           JOIN information_schema.key_column_usage AS kcu
@@ -117,7 +119,7 @@ describe("seed", () => {
 
     test("files table has file_pdf column as varying character", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                               FROM information_schema.columns
                               WHERE table_name = 'files'
@@ -132,7 +134,7 @@ describe("seed", () => {
 
     test("files table has a unique user_id column as integer", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'files'
@@ -150,12 +152,12 @@ describe("seed", () => {
     describe("quizzes table", () => {
       test("quizzes table exists", () => {
         return db
-          .query(
+          .query<RowDataPacket[]>(
             `SELECT EXISTS (
           SELECT * 
           FROM information_schema.tables 
           WHERE  table_name = 'quizzes'
-      ) AS exists;`
+      ) `
           )
           .then(([rows]) => {
             expect(rows[0].exists).toBe(1);
@@ -164,7 +166,7 @@ describe("seed", () => {
 
       test("quizzes table has quiz_id column as the auto increment primary key", () => {
         return db
-          .query(
+          .query<RowDataPacket[]>(
             `SELECT column_name, extra
                           FROM information_schema.table_constraints AS tc
                           JOIN information_schema.key_column_usage AS kcu
@@ -182,7 +184,7 @@ describe("seed", () => {
 
       test("quiz table has password column as varying character", () => {
         return db
-          .query(
+          .query<RowDataPacket[]>(
             `SELECT column_name, data_type
                               FROM information_schema.columns
                               WHERE table_name = 'users'
@@ -197,7 +199,7 @@ describe("seed", () => {
 
       test("users table has a unique email column as varying character", () => {
         return db
-          .query(
+          .query<RowDataPacket[]>(
             `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'users'
@@ -212,7 +214,7 @@ describe("seed", () => {
 
       test("users table has an email column that is unique", () => {
         return db
-          .query(
+          .query<RowDataPacket[]>(
             `SELECT column_name
                         FROM information_schema.table_constraints AS tc
                         JOIN information_schema.key_column_usage AS kcu
@@ -230,12 +232,12 @@ describe("seed", () => {
   describe("questions table", () => {
     test("questions table exists", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT EXISTS (
             SELECT * 
             FROM information_schema.tables 
             WHERE  table_name = 'questions'
-        ) AS exists;`
+        ) `
         )
         .then(([rows]) => {
           expect(rows[0].exists).toBe(1);
@@ -244,7 +246,7 @@ describe("seed", () => {
 
     test("questions table has question_id column as the auto increment primary key", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, extra
                             FROM information_schema.table_constraints AS tc
                             JOIN information_schema.key_column_usage AS kcu
@@ -260,7 +262,7 @@ describe("seed", () => {
 
     test("questions table has quiz_id column as type integer", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'questions'
@@ -275,7 +277,7 @@ describe("seed", () => {
 
     test("questions table has a question_body column as varying character", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                   FROM information_schema.columns
                                   WHERE table_name = 'quizzes'
@@ -292,12 +294,12 @@ describe("seed", () => {
   describe("questionsOptions table", () => {
     test("questionOptions table exists", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT EXISTS (
             SELECT * 
             FROM information_schema.tables 
             WHERE  table_name = 'questionOptions'
-        ) AS exists;`
+        ) ;`
         )
         .then(([rows]) => {
           expect(rows[0].exists).toBe(1);
@@ -306,7 +308,7 @@ describe("seed", () => {
 
     test("questionOptions table has question_options_id column as the auto increment primary key", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, extra
                             FROM information_schema.table_constraints AS tc
                             JOIN information_schema.key_column_usage AS kcu
@@ -322,7 +324,7 @@ describe("seed", () => {
 
     test("questionOptions table has question_id column as type integer", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'questions'
@@ -337,7 +339,7 @@ describe("seed", () => {
 
     test("questionOptions table has a option_body column as varying character", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                   FROM information_schema.columns
                                   WHERE table_name = 'questionOptions'
@@ -352,7 +354,7 @@ describe("seed", () => {
 
     test("questionOptions table has a is_correct column as boolean", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                   FROM information_schema.columns
                                   WHERE table_name = 'questionOptions'
@@ -367,7 +369,7 @@ describe("seed", () => {
 
     test("questionOptions table has a label column as varying character", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                   FROM information_schema.columns
                                   WHERE table_name = 'questionOptions'
@@ -384,12 +386,12 @@ describe("seed", () => {
   describe("attempt table", () => {
     test("questionOptions table exists", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT EXISTS (
             SELECT * 
             FROM information_schema.tables 
             WHERE  table_name = 'attempt'
-        ) AS exists;`
+        ) ;`
         )
         .then(([rows]) => {
           expect(rows[0].exists).toBe(1);
@@ -398,7 +400,7 @@ describe("seed", () => {
 
     test("attempt table has attempt_id column as the auto increment primary key", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, extra
                             FROM information_schema.table_constraints AS tc
                             JOIN information_schema.key_column_usage AS kcu
@@ -414,7 +416,7 @@ describe("seed", () => {
 
     test("attempt table has quiz_id column as type integer", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'attempt'
@@ -429,7 +431,7 @@ describe("seed", () => {
 
     test("attempt table has quiz_id column as type integer", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'attempt'
@@ -446,12 +448,12 @@ describe("seed", () => {
   describe("attemptAnswer table", () => {
     test("attemptAnswer table exists", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT EXISTS (
             SELECT * 
             FROM information_schema.tables 
             WHERE  table_name = 'attemptAnswer'
-        ) AS exists;`
+        )`
         )
         .then(([rows]) => {
           expect(rows[0].exists).toBe(1);
@@ -460,7 +462,7 @@ describe("seed", () => {
 
     test("attemptAnswer table has attempt_answer_id column as the auto increment primary key", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, extra
                             FROM information_schema.table_constraints AS tc
                             JOIN information_schema.key_column_usage AS kcu
@@ -476,7 +478,7 @@ describe("seed", () => {
 
     test("attemptAnswer table has question_id column as type integer", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'attemptAnswer'
@@ -491,7 +493,7 @@ describe("seed", () => {
 
     test("attemptAnswer table has quiz_id column as type integer", () => {
       return db
-        .query(
+        .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'attempt_id'

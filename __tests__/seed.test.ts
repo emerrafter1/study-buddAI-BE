@@ -1,10 +1,10 @@
 import db from "../db/connection";
 import { RowDataPacket } from "mysql2";
 
-// const seed = require("../db/seeds/seed");
-// const data = require("../db/data/test-data/index");
+import seed from "../db/seeds/seed";
+import data from "../db/data/test-data/index";
 
-// beforeAll(() => seed(data));
+beforeAll(() => seed(data));
 afterAll(() => db.end());
 
 describe("seed", () => {

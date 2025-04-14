@@ -2,7 +2,7 @@
   "name": "study-buddai-be",
   "version": "1.0.0",
   "main": "test.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "jest",
     "setup-db": "mysql -u root -p $MYSQL_DATABASE < ./db/setup-dbs.sql"

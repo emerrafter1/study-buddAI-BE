@@ -13,13 +13,14 @@ interface SeedData {
   const seed = async ({usersData, filesData, quizzesData, questionsData, questionOptionsData, attemptAnswerData,attemptData}: SeedData): Promise<void> => {
       const connection = await db.getConnection();
       await connection.beginTransaction();
-      await connection.query(`DROP TABLE IF EXISTS users;`);
-      await connection.query(`DROP TABLE IF EXISTS files;`);
-      await connection.query(`DROP TABLE IF EXISTS quizzes;`);
-      await connection.query(`DROP TABLE IF EXISTS questions`);
-      await connection.query(`DROP TABLE IF EXISTS questionOptions`);
-      await connection.query(`DROP TABLE IF EXISTS attemptAnswer`);
       await connection.query(`DROP TABLE IF EXISTS attempt`);
+      await connection.query(`DROP TABLE IF EXISTS attemptAnswer`);
+      await connection.query(`DROP TABLE IF EXISTS questionOptions`);
+      await connection.query(`DROP TABLE IF EXISTS questions`);
+      await connection.query(`DROP TABLE IF EXISTS quizzes;`);
+      await connection.query(`DROP TABLE IF EXISTS files;`);
+      await connection.query(`DROP TABLE IF EXISTS users;`);
+      
       await connection.query(`CREATE TABLE users (
         user_id INT AUTO_INCREMENT PRIMARY KEY,
         password VARCHAR,

@@ -380,4 +380,128 @@ describe("seed", () => {
         });
     });
   });
+
+  describe("attempt table", () => {
+    test("questionOptions table exists", () => {
+      return db
+        .query(
+          `SELECT EXISTS (
+            SELECT * 
+            FROM information_schema.tables 
+            WHERE  table_name = 'attempt'
+        ) AS exists;`
+        )
+        .then(([rows]) => {
+          expect(rows[0].exists).toBe(1);
+        });
+    });
+
+    test("attempt table has attempt_id column as the auto increment primary key", () => {
+      return db
+        .query(
+          `SELECT column_name, extra
+                            FROM information_schema.table_constraints AS tc
+                            JOIN information_schema.key_column_usage AS kcu
+                            ON tc.constraint_name = kcu.constraint_name
+                            WHERE tc.constraint_type = 'PRIMARY KEY'
+                            AND tc.table_name = 'attempt';`
+        )
+        .then(([rows]) => {
+          expect(rows[0]).toBe("attempt_id");
+          expect(rows[0].extra).toBe("auto_increment");
+        });
+    });
+
+    test("attempt table has quiz_id column as type integer", () => {
+      return db
+        .query(
+          `SELECT column_name, data_type
+                                FROM information_schema.columns
+                                WHERE table_name = 'attempt'
+                                AND column_name = 'quiz_id';`
+        )
+        .then(([rows]) => {
+          const column = rows[0];
+          expect(column.column_name).toBe("quiz_id");
+          expect(column.data_type).toBe("integer");
+        });
+    });
+
+    test("attempt table has quiz_id column as type integer", () => {
+      return db
+        .query(
+          `SELECT column_name, data_type
+                                FROM information_schema.columns
+                                WHERE table_name = 'attempt'
+                                AND column_name = 'score';`
+        )
+        .then(([rows]) => {
+          const column = rows[0];
+          expect(column.column_name).toBe("score");
+          expect(column.data_type).toBe("integer");
+        });
+    });
+  });
+
+  describe("attemptAnswer table", () => {
+    test("attemptAnswer table exists", () => {
+      return db
+        .query(
+          `SELECT EXISTS (
+            SELECT * 
+            FROM information_schema.tables 
+            WHERE  table_name = 'attemptAnswer'
+        ) AS exists;`
+        )
+        .then(([rows]) => {
+          expect(rows[0].exists).toBe(1);
+        });
+    });
+
+    test("attemptAnswer table has attempt_answer_id column as the auto increment primary key", () => {
+      return db
+        .query(
+          `SELECT column_name, extra
+                            FROM information_schema.table_constraints AS tc
+                            JOIN information_schema.key_column_usage AS kcu
+                            ON tc.constraint_name = kcu.constraint_name
+                            WHERE tc.constraint_type = 'PRIMARY KEY'
+                            AND tc.table_name = 'attemptAnswer';`
+        )
+        .then(([rows]) => {
+          expect(rows[0]).toBe("attempt_answer_id");
+          expect(rows[0].extra).toBe("auto_increment");
+        });
+    });
+
+    test("attemptAnswer table has question_id column as type integer", () => {
+      return db
+        .query(
+          `SELECT column_name, data_type
+                                FROM information_schema.columns
+                                WHERE table_name = 'attemptAnswer'
+                                AND column_name = 'question_id';`
+        )
+        .then(([rows]) => {
+          const column = rows[0];
+          expect(column.column_name).toBe("question_id");
+          expect(column.data_type).toBe("integer");
+        });
+    });
+
+    test("attemptAnswer table has quiz_id column as type integer", () => {
+      return db
+        .query(
+          `SELECT column_name, data_type
+                                FROM information_schema.columns
+                                WHERE table_name = 'attempt_id'
+                                AND column_name = 'score';`
+        )
+        .then(([rows]) => {
+          const column = rows[0];
+          expect(column.column_name).toBe("attempt_id");
+          expect(column.data_type).toBe("integer");
+        });
+    });
+  });
 });

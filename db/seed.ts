@@ -23,6 +23,7 @@ interface SeedData {
       
       await connection.query(`CREATE TABLE users (
         user_id INT AUTO_INCREMENT PRIMARY KEY,
+        user_name VARCHAR,
         password VARCHAR,
         email_address VARCHAR UNIQUE
       );
@@ -56,6 +57,7 @@ interface SeedData {
     `);
     await connection.query(`CREATE TABLE attempt (
         attempt_id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL, FOREIGN KEY (user_id) REFERENCES users(user_id),
         quiz_id INT NOT NULL, FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),
         score DECIMAL(0,2) DEFAULT 0 
       );

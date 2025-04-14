@@ -13,4 +13,4 @@ interface QuizzesTestDataItem {
     { quiz_id: 4, user_id: 3, created_at: '2025-04-14T11:45:00.000Z', quiz_name: 'Intro to Literature', file_id: 104 }
   ];
     
-    module.exports = quizzesTestData;
+  export default  quizzesTestData;

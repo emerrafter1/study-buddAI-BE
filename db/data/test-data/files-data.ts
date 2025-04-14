@@ -11,4 +11,4 @@ interface FilesTestDataItem {
     { file_id: 104, file_path: '/pdfs/literature_survey.pdf', user_id: 3 }
   ];
     
-    module.exports = filesTestData;
+  export default  filesTestData;

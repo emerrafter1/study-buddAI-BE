@@ -13,4 +13,4 @@ interface AttemptAnswersTestDataItem {
     { attempt_answer_id: 4, attempt_id: 3, question_id: 4, question_options_id: 14, is_correct: true }
   ];
     
-    module.exports = attemptAnswersTestData;
+  export default attemptAnswersTestData;

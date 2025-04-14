@@ -12,4 +12,4 @@ interface UserTestData {
     { user_id: 5, username: 'CodeNinja', password: 'javascript4ever', email: 'ninja@code.org' }
   ];
   
-  module.exports = usersTestData;
+  export default  usersTestData;

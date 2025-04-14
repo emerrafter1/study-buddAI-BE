@@ -4,14 +4,15 @@ import cors from "cors";
 import apiRouter = require("./routes/api-router")
 const app = express()
 app.use(cors())
-import routes from "../routes"
+const routes =require( "../routes")
 const { getEndpoints } = require("./controllers/endpoints_controller")
 const { postUsers } = require("../controllers/users_controller")
 const { uploadFiles } = require("../controllers/files_controller")
 const { postQuizzes, getQuizByUserId, updateQuizById, deleteQuizById } = require("../controllers/quizzes_controller")
 const { getQuestionsById, postQuestions } = require("../controllers/questions_controller")
 const { getOptionsByQuestionId, postOptions } = require("../controllers/options_controller")
-const { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } = require("../controllers/answers_controller")
+const { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } = require("../controllers/answers_attempt_controller")
+const { postQuizAttempt, updateQuizAttemptById } = require("../controllers/quiz_attempts_controller")
 
 app.use(express.json())
 app.use("/api", apiRouter);

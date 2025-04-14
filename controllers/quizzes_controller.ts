@@ -1,11 +1,11 @@
 import db from "../db/connection"
 
-exports.postQuizzes = async () => {}
+export const postQuizzes = async () => {}
 
-exports.getQuixByUserId = async () => {}
+export const getQuizByUserId = async () => {}
 
-exports.updateQuizById = async () => {}
+export const updateQuizById = async () => {}
 
-exports.deleteQuizById = async () => {}
+export const deleteQuizById = async () => {}
 
 

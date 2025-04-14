@@ -1,4 +1,4 @@
 import db from "../db/connection";
 
-export const uploadPDF = async () => {}
+export const uploadFiles = async () => {}
 

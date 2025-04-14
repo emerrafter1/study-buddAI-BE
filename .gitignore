@@ -1,3 +1,5 @@
+# Node modules
 node_modules
-.env*
-connections.ts
+
+# Environment files
+.env.* 

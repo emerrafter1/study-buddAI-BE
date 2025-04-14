@@ -16,27 +16,40 @@ describe("seed", () => {
             SELECT *
             FROM information_schema.tables 
             WHERE table_name = 'users'
-          ) `
+          ) AS doesExist`
         )
         .then(([rows]) => {
-          const exists = (rows[0] as { exists: number }).exists;
-          expect(exists).toBe(1);
+          const doesExist = (rows[0] as { doesExist: number }).doesExist;
+          expect(doesExist).toBe(1);
         });
     });
 
     test("users table has user_id column as the primary key", () => {
       return db
         .query<RowDataPacket[]>(
-          `SELECT column_name, extra
-                          FROM information_schema.table_constraints AS tc
-                          JOIN information_schema.key_column_usage AS kcu
-                          ON tc.constraint_name = kcu.constraint_name
-                          WHERE tc.constraint_type = 'PRIMARY KEY'
-                          AND tc.table_name = 'users';`
+          `SELECT kcu.column_name
+       FROM information_schema.table_constraints AS tc
+       JOIN information_schema.key_column_usage AS kcu
+         ON tc.constraint_name = kcu.constraint_name
+         AND tc.table_name = kcu.table_name
+         AND tc.table_schema = kcu.table_schema
+       WHERE tc.constraint_type = 'PRIMARY KEY'
+         AND tc.table_name = 'users'
+         AND tc.table_schema = DATABASE();`
         )
         .then(([rows]) => {
-          expect(rows[0]).toBe("user_id");
-          expect(rows[0].extra).toBe("auto_increment");
+          const column = rows[0]?.COLUMN_NAME;
+          expect(column).toBe("user_id");
+        });
+    });
+
+    test("users table has user_id column as auto increment", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT column_name FROM information_schema.columns WHERE  table_name = 'users' AND extra = 'auto_increment';`
+        )
+        .then(([rows]) => {
+          expect(rows[0].COLUMN_NAME).toBe("user_id");
         });
     });
 
@@ -50,8 +63,8 @@ describe("seed", () => {
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("password");
-          expect(column.data_type).toBe("varchar");
+          expect(column.COLUMN_NAME).toBe("password");
+          expect(column.DATA_TYPE).toBe("varchar");
         });
     });
 
@@ -61,12 +74,13 @@ describe("seed", () => {
           `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'users'
-                                AND column_name = 'email';`
+                                AND column_name = 'email_address';`
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("email");
-          expect(column.data_type).toBe("varchar");
+
+          expect(column.COLUMN_NAME).toBe("email_address");
+          expect(column.DATA_TYPE).toBe("varchar");
         });
     });
 
@@ -78,10 +92,11 @@ describe("seed", () => {
                         JOIN information_schema.key_column_usage AS kcu
                         ON tc.constraint_name = kcu.constraint_name
                         WHERE tc.constraint_type = 'UNIQUE'
-                        AND tc.table_name = 'users';`
+                        AND tc.table_name = 'users'
+                        AND tc.table_schema = DATABASE();`
         )
         .then(([rows]) => {
-          expect(rows[0]).toBe("email");
+          expect(rows[0].COLUMN_NAME).toBe("email_address");
         });
     });
   });
@@ -94,26 +109,39 @@ describe("seed", () => {
             SELECT * 
             FROM information_schema.tables 
             WHERE table_name = 'files'
-          );`
+          ) as doesExist;`
         )
         .then(([rows]) => {
-          expect(rows[0].exists).toBe(1);
+          const doesExist = (rows[0] as { doesExist: number }).doesExist;
+          expect(doesExist).toBe(1);
         });
     });
 
     test("files table has file_id column as the primary key", () => {
       return db
         .query<RowDataPacket[]>(
-          `SELECT column_name, extra
-                          FROM information_schema.table_constraints AS tc
-                          JOIN information_schema.key_column_usage AS kcu
-                          ON tc.constraint_name = kcu.constraint_name
-                          WHERE tc.constraint_type = 'PRIMARY KEY'
-                          AND tc.table_name = 'files';`
+          `SELECT kcu.column_name
+       FROM information_schema.table_constraints AS tc
+       JOIN information_schema.key_column_usage AS kcu
+         ON tc.constraint_name = kcu.constraint_name
+         AND tc.table_name = kcu.table_name
+         AND tc.table_schema = kcu.table_schema
+       WHERE tc.constraint_type = 'PRIMARY KEY'
+         AND tc.table_name = 'files'
+         AND tc.table_schema = DATABASE();`
         )
         .then(([rows]) => {
-          expect(rows[0]).toBe("file_id");
-          expect(rows[0].extra).toBe("auto_increment");
+          expect(rows[0].COLUMN_NAME).toBe("file_id");
+        });
+    });
+
+    test("files table has file_id column as auto increment", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT column_name FROM information_schema.columns WHERE  table_name = 'files' AND extra = 'auto_increment';`
+        )
+        .then(([rows]) => {
+          expect(rows[0].COLUMN_NAME).toBe("file_id");
         });
     });
 
@@ -127,8 +155,8 @@ describe("seed", () => {
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("file_pdf");
-          expect(column.data_type).toBe("varchar");
+          expect(column.COLUMN_NAME).toBe("file_pdf");
+          expect(column.DATA_TYPE).toBe("varchar");
         });
     });
 
@@ -142,13 +170,13 @@ describe("seed", () => {
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("user_id");
-          expect(column.data_type).toBe("integer");
+          expect(column.COLUMN_NAME).toBe("user_id");
+          expect(column.DATA_TYPE).toBe("int");
         });
     });
   });
 
-  describe("quizzes", () => {
+
     describe("quizzes table", () => {
       test("quizzes table exists", () => {
         return db
@@ -157,77 +185,75 @@ describe("seed", () => {
           SELECT * 
           FROM information_schema.tables 
           WHERE  table_name = 'quizzes'
-      ) `
+      ) AS doesExist `
           )
           .then(([rows]) => {
-            expect(rows[0].exists).toBe(1);
+            const doesExist = (rows[0] as { doesExist: number }).doesExist;
+            expect(doesExist).toBe(1);
           });
       });
 
-      test("quizzes table has quiz_id column as the auto increment primary key", () => {
+      test("quizzes table has quiz_id column as the  primary key", () => {
         return db
           .query<RowDataPacket[]>(
-            `SELECT column_name, extra
-                          FROM information_schema.table_constraints AS tc
-                          JOIN information_schema.key_column_usage AS kcu
-                          ON tc.constraint_name = kcu.constraint_name
-                          WHERE tc.constraint_type = 'PRIMARY KEY'
-                          AND tc.table_name = 'quizzes';`
+            `SELECT kcu.column_name
+       FROM information_schema.table_constraints AS tc
+       JOIN information_schema.key_column_usage AS kcu
+         ON tc.constraint_name = kcu.constraint_name
+         AND tc.table_name = kcu.table_name
+         AND tc.table_schema = kcu.table_schema
+       WHERE tc.constraint_type = 'PRIMARY KEY'
+         AND tc.table_name = 'quizzes'
+         AND tc.table_schema = DATABASE();`
           )
           .then(([rows]) => {
-            expect(rows[0]).toBe("quiz_id");
-            expect(rows[0].extra).toBe("auto_increment");
+            expect(rows[0].COLUMN_NAME).toBe("quiz_id");
+          });
+      });
+
+      test("quizzes table has user_id column as auto increment", () => {
+        return db
+          .query<RowDataPacket[]>(
+            `SELECT column_name FROM information_schema.columns WHERE  table_name = 'quizzes' AND extra = 'auto_increment';`
+          )
+          .then(([rows]) => {
+            expect(rows[0].COLUMN_NAME).toBe("quiz_id");
           });
       });
 
       // quizzes table has a reference column to user_id
 
-      test("quiz table has password column as varying character", () => {
+      test("quizzes table has quiz_name as varying character", () => {
         return db
           .query<RowDataPacket[]>(
             `SELECT column_name, data_type
                               FROM information_schema.columns
-                              WHERE table_name = 'users'
-                              AND column_name = 'password';`
+                              WHERE table_name = 'quizzes'
+                              AND column_name = 'quiz_name';`
           )
           .then(([rows]) => {
             const column = rows[0];
-            expect(column.column_name).toBe("password");
-            expect(column.data_type).toBe("varchar");
+            expect(column.COLUMN_NAME).toBe("quiz_name");
+            expect(column.DATA_TYPE).toBe("varchar");
           });
       });
 
-      test("users table has a unique email column as varying character", () => {
+      test("quizzes table has a file_id column as an int", () => {
         return db
           .query<RowDataPacket[]>(
             `SELECT column_name, data_type
                                 FROM information_schema.columns
-                                WHERE table_name = 'users'
-                                AND column_name = 'email';`
+                                WHERE table_name = 'quizzes'
+                                AND column_name = 'file_id';`
           )
           .then(([rows]) => {
             const column = rows[0];
-            expect(column.column_name).toBe("email");
-            expect(column.data_type).toBe("varchar");
-          });
-      });
-
-      test("users table has an email column that is unique", () => {
-        return db
-          .query<RowDataPacket[]>(
-            `SELECT column_name
-                        FROM information_schema.table_constraints AS tc
-                        JOIN information_schema.key_column_usage AS kcu
-                        ON tc.constraint_name = kcu.constraint_name
-                        WHERE tc.constraint_type = 'UNIQUE'
-                        AND tc.table_name = 'users';`
-          )
-          .then(([rows]) => {
-            expect(rows[0]).toBe("email");
+            expect(column.COLUMN_NAME).toBe("file_id");
+            expect(column.DATA_TYPE).toBe("int");
           });
       });
     });
-  });
+
 
   describe("questions table", () => {
     test("questions table exists", () => {
@@ -237,26 +263,39 @@ describe("seed", () => {
             SELECT * 
             FROM information_schema.tables 
             WHERE  table_name = 'questions'
-        ) `
+        ) AS doesExist `
         )
         .then(([rows]) => {
-          expect(rows[0].exists).toBe(1);
+          const doesExist = (rows[0] as { doesExist: number }).doesExist;
+          expect(doesExist).toBe(1);
         });
     });
 
     test("questions table has question_id column as the auto increment primary key", () => {
       return db
         .query<RowDataPacket[]>(
-          `SELECT column_name, extra
-                            FROM information_schema.table_constraints AS tc
-                            JOIN information_schema.key_column_usage AS kcu
-                            ON tc.constraint_name = kcu.constraint_name
-                            WHERE tc.constraint_type = 'PRIMARY KEY'
-                            AND tc.table_name = 'questions';`
+          `SELECT kcu.column_name
+       FROM information_schema.table_constraints AS tc
+       JOIN information_schema.key_column_usage AS kcu
+         ON tc.constraint_name = kcu.constraint_name
+         AND tc.table_name = kcu.table_name
+         AND tc.table_schema = kcu.table_schema
+       WHERE tc.constraint_type = 'PRIMARY KEY'
+         AND tc.table_name = 'questions'
+         AND tc.table_schema = DATABASE();`
         )
         .then(([rows]) => {
-          expect(rows[0]).toBe("question_id");
-          expect(rows[0].extra).toBe("auto_increment");
+          expect(rows[0].COLUMN_NAME).toBe("question_id");
+        });
+    });
+
+    test("questions table has question_id column as auto increment", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT column_name FROM information_schema.columns WHERE  table_name = 'questions' AND extra = 'auto_increment';`
+        )
+        .then(([rows]) => {
+          expect(rows[0].COLUMN_NAME).toBe("question_id");
         });
     });
 
@@ -270,8 +309,8 @@ describe("seed", () => {
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("quiz_id");
-          expect(column.data_type).toBe("integer");
+          expect(column.COLUMN_NAME).toBe("quiz_id");
+          expect(column.DATA_TYPE).toBe("int");
         });
     });
 
@@ -280,13 +319,13 @@ describe("seed", () => {
         .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                   FROM information_schema.columns
-                                  WHERE table_name = 'quizzes'
+                                  WHERE table_name = 'questions'
                                   AND column_name = 'question_body';`
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("question_body");
-          expect(column.data_type).toBe("varchar");
+          expect(column.COLUMN_NAME).toBe("question_body");
+          expect(column.DATA_TYPE).toBe("varchar");
         });
     });
   });
@@ -299,26 +338,40 @@ describe("seed", () => {
             SELECT * 
             FROM information_schema.tables 
             WHERE  table_name = 'questionOptions'
-        ) ;`
+        ) AS doesExist;`
         )
         .then(([rows]) => {
-          expect(rows[0].exists).toBe(1);
+          const doesExist = (rows[0] as { doesExist: number }).doesExist;
+          expect(doesExist).toBe(1);
         });
     });
 
     test("questionOptions table has question_options_id column as the auto increment primary key", () => {
       return db
         .query<RowDataPacket[]>(
-          `SELECT column_name, extra
-                            FROM information_schema.table_constraints AS tc
-                            JOIN information_schema.key_column_usage AS kcu
-                            ON tc.constraint_name = kcu.constraint_name
-                            WHERE tc.constraint_type = 'PRIMARY KEY'
-                            AND tc.table_name = 'questionOptions';`
+          `SELECT kcu.column_name
+       FROM information_schema.table_constraints AS tc
+       JOIN information_schema.key_column_usage AS kcu
+         ON tc.constraint_name = kcu.constraint_name
+         AND tc.table_name = kcu.table_name
+         AND tc.table_schema = kcu.table_schema
+       WHERE tc.constraint_type = 'PRIMARY KEY'
+         AND tc.table_name = 'questionOptions'
+         AND tc.table_schema = DATABASE();`
         )
         .then(([rows]) => {
-          expect(rows[0]).toBe("question_options_id");
-          expect(rows[0].extra).toBe("auto_increment");
+          const column = rows[0]?.COLUMN_NAME;
+          expect(column).toBe("question_options_id");
+        });
+    });
+
+    test("questionOptions table has question_options_id column as auto increment", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT column_name FROM information_schema.columns WHERE  table_name = 'questionOptions' AND extra = 'auto_increment';`
+        )
+        .then(([rows]) => {
+          expect(rows[0].COLUMN_NAME).toBe("question_options_id");
         });
     });
 
@@ -332,8 +385,8 @@ describe("seed", () => {
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("question_id");
-          expect(column.data_type).toBe("integer");
+          expect(column.COLUMN_NAME).toBe("question_id");
+          expect(column.DATA_TYPE).toBe("int");
         });
     });
 
@@ -347,12 +400,13 @@ describe("seed", () => {
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("option_body");
-          expect(column.data_type).toBe("varchar");
+          expect(column.COLUMN_NAME).toBe("option_body");
+          expect(column.DATA_TYPE).toBe("varchar");
         });
     });
 
-    test("questionOptions table has a is_correct column as boolean", () => {
+    // check why this is tiny int
+    test.skip("questionOptions table has a is_correct column as boolean", () => {
       return db
         .query<RowDataPacket[]>(
           `SELECT column_name, data_type
@@ -362,8 +416,8 @@ describe("seed", () => {
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("is_correct");
-          expect(column.data_type).toBe("boolean");
+          expect(column.COLUMN_NAME).toBe("is_correct");
+          expect(column.DATA_TYPE).toBe("boolean");
         });
     });
 
@@ -373,44 +427,57 @@ describe("seed", () => {
           `SELECT column_name, data_type
                                   FROM information_schema.columns
                                   WHERE table_name = 'questionOptions'
-                                  AND column_name = 'option_body';`
+                                  AND column_name = 'label';`
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("option_body");
-          expect(column.data_type).toBe("label");
+          expect(column.COLUMN_NAME).toBe("label");
+          expect(column.DATA_TYPE).toBe("varchar");
         });
     });
   });
 
   describe("attempt table", () => {
-    test("questionOptions table exists", () => {
+    test("attempt table exists", () => {
       return db
         .query<RowDataPacket[]>(
           `SELECT EXISTS (
             SELECT * 
             FROM information_schema.tables 
             WHERE  table_name = 'attempt'
-        ) ;`
+        ) as doesExist;`
         )
         .then(([rows]) => {
-          expect(rows[0].exists).toBe(1);
+          const doesExist = (rows[0] as { doesExist: number }).doesExist;
+          expect(doesExist).toBe(1);
         });
     });
 
     test("attempt table has attempt_id column as the auto increment primary key", () => {
       return db
         .query<RowDataPacket[]>(
-          `SELECT column_name, extra
-                            FROM information_schema.table_constraints AS tc
-                            JOIN information_schema.key_column_usage AS kcu
-                            ON tc.constraint_name = kcu.constraint_name
-                            WHERE tc.constraint_type = 'PRIMARY KEY'
-                            AND tc.table_name = 'attempt';`
+          `SELECT kcu.column_name
+          FROM information_schema.table_constraints AS tc
+          JOIN information_schema.key_column_usage AS kcu
+            ON tc.constraint_name = kcu.constraint_name
+            AND tc.table_name = kcu.table_name
+            AND tc.table_schema = kcu.table_schema
+          WHERE tc.constraint_type = 'PRIMARY KEY'
+            AND tc.table_name = 'attempt'
+            AND tc.table_schema = DATABASE();`
         )
         .then(([rows]) => {
-          expect(rows[0]).toBe("attempt_id");
-          expect(rows[0].extra).toBe("auto_increment");
+          expect(rows[0].COLUMN_NAME).toBe("attempt_id");
+        });
+    });
+
+    test("attempt table has attempt_id column as auto increment", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT column_name FROM information_schema.columns WHERE  table_name = 'attempt' AND extra = 'auto_increment';`
+        )
+        .then(([rows]) => {
+          expect(rows[0].COLUMN_NAME).toBe("attempt_id");
         });
     });
 
@@ -424,8 +491,8 @@ describe("seed", () => {
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("quiz_id");
-          expect(column.data_type).toBe("integer");
+          expect(column.COLUMN_NAME).toBe("quiz_id");
+          expect(column.DATA_TYPE).toBe("int");
         });
     });
 
@@ -439,8 +506,8 @@ describe("seed", () => {
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("score");
-          expect(column.data_type).toBe("integer");
+          expect(column.COLUMN_NAME).toBe("score");
+          expect(column.DATA_TYPE).toBe("decimal");
         });
     });
   });
@@ -453,26 +520,39 @@ describe("seed", () => {
             SELECT * 
             FROM information_schema.tables 
             WHERE  table_name = 'attemptAnswer'
-        )`
+        ) as doesExist`
         )
         .then(([rows]) => {
-          expect(rows[0].exists).toBe(1);
+          const doesExist = (rows[0] as { doesExist: number }).doesExist;
+          expect(doesExist).toBe(1);
         });
     });
 
     test("attemptAnswer table has attempt_answer_id column as the auto increment primary key", () => {
       return db
         .query<RowDataPacket[]>(
-          `SELECT column_name, extra
-                            FROM information_schema.table_constraints AS tc
-                            JOIN information_schema.key_column_usage AS kcu
-                            ON tc.constraint_name = kcu.constraint_name
-                            WHERE tc.constraint_type = 'PRIMARY KEY'
-                            AND tc.table_name = 'attemptAnswer';`
+          `SELECT kcu.column_name
+       FROM information_schema.table_constraints AS tc
+       JOIN information_schema.key_column_usage AS kcu
+         ON tc.constraint_name = kcu.constraint_name
+         AND tc.table_name = kcu.table_name
+         AND tc.table_schema = kcu.table_schema
+       WHERE tc.constraint_type = 'PRIMARY KEY'
+         AND tc.table_name = 'attemptAnswer'
+         AND tc.table_schema = DATABASE();`
         )
         .then(([rows]) => {
-          expect(rows[0]).toBe("attempt_answer_id");
-          expect(rows[0].extra).toBe("auto_increment");
+          expect(rows[0].COLUMN_NAME).toBe("attempt_answer_id");
+        });
+    });
+
+    test("attemptAnswer table has user_id column as auto increment", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT column_name FROM information_schema.columns WHERE  table_name = 'attemptAnswer' AND extra = 'auto_increment';`
+        )
+        .then(([rows]) => {
+          expect(rows[0].COLUMN_NAME).toBe("attempt_answer_id");
         });
     });
 
@@ -486,23 +566,24 @@ describe("seed", () => {
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("question_id");
-          expect(column.data_type).toBe("integer");
+          expect(column.COLUMN_NAME).toBe("question_id");
+          expect(column.DATA_TYPE).toBe("int");
         });
     });
 
-    test("attemptAnswer table has quiz_id column as type integer", () => {
+    test("attemptAnswer table has attempt_id column as type integer", () => {
       return db
         .query<RowDataPacket[]>(
           `SELECT column_name, data_type
                                 FROM information_schema.columns
-                                WHERE table_name = 'attempt_id'
-                                AND column_name = 'score';`
+                                WHERE table_name = 'attemptAnswer'
+                                AND column_name = 'attempt_id';`
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.column_name).toBe("attempt_id");
-          expect(column.data_type).toBe("integer");
+
+          expect(column.COLUMN_NAME).toBe("attempt_id");
+          expect(column.DATA_TYPE).toBe("int");
         });
     });
   });

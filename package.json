@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "test.js",
   "scripts": {
-    "test": "ts-node --project tsconfig.json node_modules/jest/bin/jest.js --config jest.config.ts",
+    "test": "jest",
     "setup-db": "mysql -u root -p $MYSQL_DATABASE < ./db/setup-dbs.sql"
   },
   "keywords": [],

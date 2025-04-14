@@ -1,5 +1,5 @@
 require("dotenv").config()
-import express, { Application } from "express";
+import express from "express";
 import cors from "cors";
 const app = express()
 app.use(cors())
@@ -41,17 +41,18 @@ app.patch("/quizzes/:quiz_id", updateQuizById)
 app.delete("/quizzes/:quid_id", deleteQuizById) // to be added later
 
 //Quiz Questions
-app.get("/questions/:quiz_id", getQuestionsById)
 app.post("questions", postQuestions )
+app.get("/questions/:quiz_id", getQuestionsById)
 
 //Question Options
-app.get("/question_options/:question_id", getOptionsByQuestionId)
-app.post("question_opitons", postOptions)
+app.post("answer_options", postOptions)
+app.get("/answer_options/:question_id", getOptionsByQuestionId)
+
 
 
 //Attempted answers
-app.get("/attempt_answer/:question_options_id", getAnswerAttemptByOptionId)
-app.post("attempt_answer/:question_options_id", postAnswerAttemptByOptionId)
+app.get("/answer_attempt/:answer_options_id", getAnswerAttemptByOptionId)
+app.post("answer_attempt/:answer_options_id", postAnswerAttemptByOptionId)
 
 
 //Quiz attempt

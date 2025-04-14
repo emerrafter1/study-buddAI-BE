@@ -1,10 +1,15 @@
 require("dotenv").config()
-import express from "express";
+import express, { Application } from "express";
 import cors from "cors";
-import apiRouter = require("./routes/api-router")
 const app = express()
 app.use(cors())
 const routes =require( "../routes")
+import {Request, Response, } from 'express'
+const { handleServerErrors, 
+    handlePsqlErrors, 
+    handleCustomErrors,
+} = require("./controllers/errors.controller")
+
 const { getEndpoints } = require("./controllers/endpoints_controller")
 const { postUsers } = require("../controllers/users_controller")
 const { uploadFiles } = require("../controllers/files_controller")
@@ -14,6 +19,7 @@ const { getOptionsByQuestionId, postOptions } = require("../controllers/options_
 const { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } = require("../controllers/answers_attempt_controller")
 const { postQuizAttempt, updateQuizAttemptById } = require("../controllers/quiz_attempts_controller")
 
+//MIDDLEWARE
 app.use(express.json())
 app.use("/api", apiRouter);
 app.use('/api/files', routes);
@@ -48,15 +54,10 @@ app.post("attempt_answer/:question_options_id", postAnswerAttemptByOptionId)
 app.post("/attempt", postQuizAttempt)
 app.patch("/attempt/:attempt_id"), updateQuizAttemptById
 
-const { handleServerErrors, 
-    handlePsqlErrors, 
-    handleCustomErrors,
-} = require("./controllers/errors.controller")
-
-
+// *******************************************************************************
 
 //ERROR HANDLING
-app.all("*", (req, res) => {
+app.all("*", (req:Request, res:Response):any => {
     res.status(404).send({ msg: "Path not found" });
   });
 

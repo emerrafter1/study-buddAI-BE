@@ -3,17 +3,15 @@ import express from "express";
 import cors from "cors";
 const app = express()
 app.use(cors())
-import { Router } from "express";
-const router = Router();
 import {Request, Response, } from 'express'
 const { handleServerErrors, 
     handlePsqlErrors, 
     handleCustomErrors,
 } = require("./controllers/errors.controller")
-import { apiRouter } from '../routes/api-router'
+import { apiRouter } from './routes/api-router'
 
 
-export default router;
+
 const { getEndpoints } = require("./controllers/endpoints_controller")
 const { postUsers } = require("../controllers/users_controller")
 const { uploadFiles } = require("../controllers/files_controller")
@@ -37,7 +35,7 @@ app.post("/upload", uploadFiles)
 //Quizzes
 app.post("/quizzes", postQuizzes) 
 app.get("/quizzes/:user_id", getQuizByUserId)
-app.patch("/quizzes/:quiz_id", updateQuizById)
+app.patch("/quizzes/:quiz_id", updateQuizById) //quizzes/:quiz_id/scores ??git 
 app.delete("/quizzes/:quid_id", deleteQuizById) // to be added later
 
 //Quiz Questions

@@ -4,7 +4,7 @@ import { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } from "../cont
 export const answersAttemptRouter = Router();
 
 answersAttemptRouter
-    .route("/attempt_answer/:question_options_id")
+    .route("/attempt_answer/:answer_options_id")
     .get(getAnswerAttemptByOptionId)
     .post(postAnswerAttemptByOptionId);
 

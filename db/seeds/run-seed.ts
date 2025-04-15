@@ -1,4 +1,4 @@
-import devData from "../data/test-data/index"
+import devData from "../data/development-data/index"
 import seed from './seed';
 import db from '../connection';
 

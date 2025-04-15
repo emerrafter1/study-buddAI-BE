@@ -6,7 +6,7 @@ import questionsData from "./questions-data";
 import quizzesData from "./quizzes-data";
 import usersData from "./user-data";
 
-const devData = {
+const testData = {
   attemptAnswerData,
   attemptData,
   filesData,
@@ -16,4 +16,4 @@ const devData = {
   usersData,
 };
 
-export default devData;
+export default testData;

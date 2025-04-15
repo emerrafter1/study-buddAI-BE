@@ -1,4 +1,4 @@
-// connection.ts
+
 import { createPool, PoolOptions } from "mysql2/promise";
 import * as dotenv from "dotenv";
 import * as path from "path";

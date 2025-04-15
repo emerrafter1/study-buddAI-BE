@@ -404,7 +404,7 @@ describe("seed", () => {
     });
 
     // check why this is tiny int because 1 0
-    test.only("questionOptions table has a is_correct column as boolean", () => {
+    test("questionOptions table has a is_correct column as boolean", () => {
       return db
         .query<RowDataPacket[]>(
           `SELECT column_name, data_type

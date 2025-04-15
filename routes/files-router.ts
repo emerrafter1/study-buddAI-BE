@@ -1,11 +1,11 @@
-import {uploadFiles} from "../controllers/files_controller";
-import express from "express";
+// import {uploadFiles} from "../controllers/files_controller";
+// import express from "express";
 
-export const filesRouter = express.Router();
+// export const filesRouter = express.Router();
   
-  filesRouter
-    .route("/upload")
-    .post(uploadFiles);
+//   filesRouter
+//     .route("/upload")
+//     .post(uploadFiles);
   
 
 

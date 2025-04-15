@@ -31,7 +31,7 @@
     "author": "Arthur J Miller",
     "keywords": "#dogs",
     "pageCount": 1,
-    "creator": "Microsoft",
+    "creator": "Microsoft"
   } ]
   },
   "exampleResponse": {
@@ -47,12 +47,12 @@
     "author": "Arthur J Miller",
     "keywords": "#dogs",
     "pageCount": 1,
-    "creator": "Microsoft",
+    "creator": "Microsoft"
   } ]
   }
 },
 "GET /api/quizzes": {
-      "description": "serves an array of all quizzes ordered by date descending with a score",
+      "description": "serves an array of all quizzes ordered by date descending",
       "queries": ["score", "sort_by", "order"],
       "exampleResponse": {
         "quizzes": [
@@ -60,7 +60,7 @@
             "quiz_id":"quiz_id",
             "quiz_name": 1,
              "score":"80%",
-            "created_at": "2020-04-06, 13:17:00",
+            "created_at": "2020-04-06, 13:17:00"
           },
           {
             "quiz_id":"quiz_id",
@@ -81,7 +81,7 @@
       "description": "stores generated quizzes to database",
       "queries": [],
       "exampleRequest": {
-        "article":
+        "quizzes":
           {
             
           },
@@ -93,7 +93,7 @@
       }
     },
 "GET /api/quizzes/:user_id": {
-      "description": "serves an array of quizzes",
+      "description": "serves an array of quizzes by user",
       "queries": [],
       "exampleResponse": {
         "quizzes": [
@@ -101,7 +101,7 @@
                   "quiz_id":"quiz_id",
                   "quiz_name": 1,
                    "score":"80%",
-                  "created_at": "2020-04-06, 13:17:00",
+                  "created_at": "2020-04-06, 13:17:00"
                 },
                 {
                   "quiz_id":"quiz_id",
@@ -118,8 +118,8 @@
               ]
       }
     },
-"PATCH /api/quizzes/:quiz_id": { //should this be /quizzes/:quiz_id/scores
-      "description": "updates the score of a quiz ",
+"PATCH /api/quizzes/:quiz_id": { 
+      "description": "updates the score of a quiz",
       "queries": [],
       "requestBody": {
         "score": "newScore as a percentage"
@@ -139,19 +139,7 @@
     },
 "DELETE /api/quizzes/:quiz_id": {
       "description": "removes quiz record by quiz ID",
-      "queries": [],
-      "exampleRequest": {
-        "quizzes": [
-          {
-            "user_id": "4",
-            "quiz_id":"quiz_id",
-            "quiz_name": 1,
-            "score":"80%",
-            "created_at": "2020-04-06, 13:17:00"
-          },
-        ]
-        },
-        "exampleResponse": {[]},
+        "exampleResponse": {}
       },
 "POST /api/questions": {
       "description": "post an array of generated questions per quiz ID to the database",
@@ -239,11 +227,11 @@
           ]
       }
     },
-"POST /api/answer_options": {
+"POST /api/question_options": {
       "description": "posts the answer options to the db",
       "queries": [],
       "exampleRequest": {
-        "answers_options": {
+        "question_options": {
             "A": "Lion", 
             "B": "Tiger", 
             "C":"Bear", 
@@ -251,11 +239,11 @@
         }
       }
     }, 
-"GET /api/answer_options/:question_id": {
-      "description": "serves an object of answer options",
+"GET /api/question_options/:question_id": {
+      "description": "serves an object of question options",
       "queries": [],
       "exampleRequest": {
-        "answers_options": {
+        "question_options": {
             "A": "Lion", 
             "B": "Tiger", 
             "C":"Bear", 
@@ -267,13 +255,14 @@
       "description": "",
       "queries": [],
       "exampleResponse": {
-        "article": [
+        "answer_attempt": [
           {
-           
+           {"attempt_answer_id..."}
           }
         ]
       }
     }
+
     }
   
   

@@ -1,11 +1,41 @@
-import db from "../db/connection"
+import { Request, Response, NextFunction } from "express";
+import { fetchUserQuizzes, insertQuiz } from "../models/quizzes_model";
 
-export const postQuizzes = async () => {}
+// export const postQuizzes = async () => {}
 
-export const getQuizByUserId = async () => {}
+export const getQuizByUserId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.params;
 
-export const updateQuizById = async () => {}
+  const userId = Number(user_id);
 
-export const deleteQuizById = async () => {}
+  try {
+    const quizzes = await fetchUserQuizzes(userId);
+    res.status(200).send({ quizzes });
+  } catch (err) {
+    next(err);
+  }
+};
 
+export const postQuizzes = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id, quiz_name, file_id } = req.body;
 
+  try {
+    const quiz = await insertQuiz(user_id, quiz_name, file_id);
+    res.status(201).send({ quiz });
+  } catch (err) {
+   
+    next(err);
+  }
+};
+
+// export const updateQuizById = async () => {}
+
+// export const deleteQuizById = async () => {}

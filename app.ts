@@ -5,7 +5,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from 'express';
 
 const {
   handleServerErrors,
@@ -25,9 +25,9 @@ import { getQuizByUserId } from "./controllers/quizzes_controller";
 // const { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } = require("../controllers/answers_attempt_controller")
 // const { postQuizAttempt, updateQuizAttemptById } = require("../controllers/quiz_attempts_controller")
 
-// //MIDDLEWARE
-// app.use(express.json())
-// app.use("/api", apiRouter);
+//MIDDLEWARE
+app.use(express.json());
+app.use("/api", apiRouter);
 // app.use('/api/files', apiRouter);
 
 // //Users
@@ -65,8 +65,8 @@ app.get("/quizzes/:user_id", getQuizByUserId);
 //     res.status(404).send({ msg: "Path not found" });
 //   });
 
-// app.use(handlePsqlErrors);
-// app.use(handleCustomErrors);
-// app.use(handleServerErrors);
+app.use(handlePsqlErrors);
+app.use(handleCustomErrors);
+app.use(handleServerErrors);
 
 export default app;

@@ -15,7 +15,7 @@ const {
 
 import { apiRouter } from "./routes/api-router";
 import postUsers from "./controllers/users_controller";
-import { getQuizByUserId } from "./controllers/quizzes_controller";
+import { getQuizByUserId, postQuizzes } from "./controllers/quizzes_controller";
 
 // const { getEndpoints } = require("./controllers/endpoints_controller")
 // const { uploadFiles } = require("../controllers/files_controller")
@@ -37,7 +37,7 @@ app.post("/users", postUsers);
 // app.post("/upload", uploadFiles)
 
 // //Quizzes
-// app.post("/quizzes", postQuizzes)
+app.post("/quizzes", postQuizzes)
 app.get("/quizzes/:user_id", getQuizByUserId);
 // app.patch("/quizzes/:quiz_id", updateQuizById) //quizzes/:quiz_id/scores ??git
 // app.delete("/quizzes/:quid_id", deleteQuizById) // to be added later

@@ -12,7 +12,7 @@ afterAll(() => {
   return db.end();
 });
 
-describe("POST /quizzes/:user_id", () => {
+describe("GET /quizzes/:user_id", () => {
   test("200", async () => {
     const { body } = await request(app).get("/quizzes/3").expect(200);
     expect(body.quizzes.length).toBe(1);
@@ -45,5 +45,40 @@ describe("POST /quizzes/:user_id", () => {
     const { body } = await request(app).get("/quizzes/799").expect(404);
 
     expect(body.msg).toBe("Not found");
+  });
+});
+
+describe("POST /quizzes", () => {
+  test("201", async () => {
+    const quizRequest = {
+      user_id: 2,
+      quiz_name: "Test post quiz",
+      file_id: 3,
+    };
+    const { body } = await request(app)
+      .post("/quizzes")
+      .send(quizRequest)
+      .expect(201);
+
+    const quiz = body.quiz;
+
+    expect(quiz.quiz_id).toBe(5);
+    expect(quiz.user_id).toBe(2);
+    expect(quiz.quiz_name).toBe("Test post quiz");
+    expect(quiz.file_id).toBe(3);
+  });
+
+  test("400: Responds with bad request when an invalid request is made", async () => {
+    const badQuizRequest = {
+      user_id: "dog",
+      quiz_name: "Test post quiz",
+      file_id: 3,
+    };
+    const { body } = await request(app)
+      .post("/quizzes")
+      .send(badQuizRequest)
+      .expect(400);
+
+    expect(body.msg).toBe("Bad request");
   });
 });

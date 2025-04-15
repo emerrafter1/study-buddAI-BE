@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { fetchUserQuizzes } from "../models/quizzes_model";
+import { fetchUserQuizzes, insertQuiz } from "../models/quizzes_model";
 
 // export const postQuizzes = async () => {}
 
@@ -16,6 +16,22 @@ export const getQuizByUserId = async (
     const quizzes = await fetchUserQuizzes(userId);
     res.status(200).send({ quizzes });
   } catch (err) {
+    next(err);
+  }
+};
+
+export const postQuizzes = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id, quiz_name, file_id } = req.body;
+
+  try {
+    const quiz = await insertQuiz(user_id, quiz_name, file_id);
+    res.status(201).send({ quiz });
+  } catch (err) {
+   
     next(err);
   }
 };

@@ -25,8 +25,6 @@ describe("POST /quizzes", () => {
       .send(questionOptionRequest)
       .expect(201);
 
-      
-
     const questionOption = body.questionOption;
 
     expect(questionOption.question_id).toBe(4);
@@ -48,5 +46,30 @@ describe("POST /quizzes", () => {
       .expect(400);
 
     expect(body.msg).toBe("Bad request");
+  });
+});
+
+describe("GET /quizzes/:question_id", () => {
+  test("200", async () => {
+    const { body } = await request(app).get("/question_options/2").expect(200);
+    const questionOptions = body.questionOptions;
+    expect(questionOptions.length).toBe(4);
+    questionOptions.forEach((option) => {
+      expect(option.question_id).toBe(2);
+      expect(typeof option.option_body).toBe("string");
+      expect(typeof option.is_correct).toBe("number");
+      expect(typeof option.label).toBe("string");
+    });
+  });
+
+  test("400: Responds with bad request when an invalid request is made", async () => {
+    const { body } = await request(app).get("/question_options/banana").expect(400);
+    expect(body.msg).toBe("Bad request");
+  });
+
+  test("404: Responds with not found when a valid request when is made and the record does not exist", async () => {
+    const { body } = await request(app).get("/quizzes/799").expect(404);
+
+    expect(body.msg).toBe("Not found");
   });
 });

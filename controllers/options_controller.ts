@@ -1,8 +1,26 @@
 import { Request, Response, NextFunction } from "express";
-import { insertQuestionOption } from "../models/options_model";
-import { error } from "console";
+import { insertQuestionOption,fetchQuestionOptions } from "../models/options_model";
 
-// export const getOptionsByQuestionId = async () => {}
+
+
+ export const getOptionsByQuestionId = async ( req: Request,
+    res: Response,
+    next: NextFunction) => {
+
+        const { question_id } = req.params;
+
+        const questionId = Number(question_id)
+
+
+  try {
+    const questionOptions = await fetchQuestionOptions(questionId);
+    res.status(200).send({ questionOptions });
+  } catch (err) {
+    next(err);
+  }
+
+
+    }
 
 export const postOptions = async (
   req: Request,

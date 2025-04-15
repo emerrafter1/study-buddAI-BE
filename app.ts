@@ -43,19 +43,19 @@ app.post("questions", postQuestions )
 app.get("/questions/:quiz_id", getQuestionsById)
 
 //Question Options
-app.post("answer_options", postOptions)
-app.get("/answer_options/:question_id", getOptionsByQuestionId)
+app.post("question_options", postOptions)
+app.get("/question_options/:question_id", getOptionsByQuestionId)
 
 
 
 //Attempted answers
 app.get("/answer_attempt/:answer_options_id", getAnswerAttemptByOptionId)
-app.post("answer_attempt/:answer_options_id", postAnswerAttemptByOptionId)
+app.post("answer_attempt/:answer_options_id", postAnswerAttemptByOptionId) //poat answer
 
 
 //Quiz attempt
-app.post("/attempt", postQuizAttempt)
-app.patch("/attempt/:attempt_id"), updateQuizAttemptById
+app.post("/attempt", postQuizAttempt) //posts to db
+app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
 
 // *******************************************************************************
 

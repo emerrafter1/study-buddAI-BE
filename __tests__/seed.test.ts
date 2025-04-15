@@ -237,6 +237,21 @@ describe("seed", () => {
         });
     });
 
+    test("quizzes table has a created_at column column as an int", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT column_name, data_type
+                                FROM information_schema.columns
+                                WHERE table_name = 'quizzes'
+                                AND column_name = 'created_at';`
+        )
+        .then(([rows]) => {
+          const column = rows[0];
+          expect(column.COLUMN_NAME).toBe("created_at");
+          expect(column.DATA_TYPE).toBe("timestamp");
+        });
+    });
+
     test("quizzes table has a file_id column as an int", () => {
       return db
         .query<RowDataPacket[]>(
@@ -587,85 +602,96 @@ describe("seed", () => {
   });
 });
 
-// describe("data insertion", () => {
-//   test("users data has been inserted correctly", () => {
-//     return db.query(`SELECT * FROM users;`).then(({}) => {
-//       expect(users).toHaveLength(5);
-//       users.forEach((user) => {
-//         expect(user).toHaveProperty("user_id");
-//         expect(user).toHaveProperty("password");
-//         expect(user).toHaveProperty("email_address");
-//       });
-//     });
-//   });
+describe("data insertion", () => {
+  test("users data has been inserted correctly", () => {
+    return db.query<RowDataPacket[]>(`SELECT * FROM users;`).then(([users]) => {
+      expect(users).toHaveLength(5);
+      users.forEach((user) => {
+        expect(user).toHaveProperty("user_id");
+        expect(user).toHaveProperty("password");
+        expect(user).toHaveProperty("email_address");
+      });
+    });
+  });
 
-//   test("files data has been inserted correctly", () => {
-//     return db.query(`SELECT * FROM files;`).then(({}) => {
-//       expect(files).toHaveLength(4);
-//       file.forEach((file) => {
-//         expect(file).toHaveProperty("file_id");
-//         expect(file).toHaveProperty("longtext");
-//         expect(file).toHaveProperty("user_id");
-//       });
-//     });
-//   });
+  test("files data has been inserted correctly", () => {
+    return db.query<RowDataPacket[]>(`SELECT * FROM files;`).then(([files]) => {
+      expect(files).toHaveLength(4);
+      files.forEach((file) => {
+        expect(file).toHaveProperty("file_id");
+        expect(file).toHaveProperty("file_text");
+        expect(file).toHaveProperty("user_id");
+      });
+    });
+  });
 
-//   test("quizzes data has been inserted correctly", () => {
-//     return db.query(`SELECT * FROM quizzes;`).then(({}) => {
-//       expect(quizzes).toHaveLength(4);
-//       quiz.forEach((quiz) => {
-//         expect(quiz).toHaveProperty("quiz_id");
-//         expect(quiz).toHaveProperty("user_id");
-//         expect(quiz).toHaveProperty("quiz_name");
-//         expect(quiz).toHaveProperty("file_id");
-//       });
-//     });
-//   });
+  test("quizzes data has been inserted correctly", () => {
+    return db
+      .query<RowDataPacket[]>(`SELECT * FROM quizzes;`)
+      .then(([quizzes]) => {
+        expect(quizzes).toHaveLength(4);
+        quizzes.forEach((quiz) => {
+          expect(quiz).toHaveProperty("quiz_id");
+          expect(quiz).toHaveProperty("user_id");
+          expect(quiz).toHaveProperty("quiz_name");
+          expect(quiz).toHaveProperty("file_id");
+        });
+      });
+  });
 
-//   test("questions data has been inserted correctly", () => {
-//     return db.query(`SELECT * FROM questions;`).then(({}) => {
-//       expect(questions).toHaveLength(4);
-//       question.forEach((question) => {
-//         expect(question).toHaveProperty("question_id");
-//         expect(question).toHaveProperty("quiz_id");
-//         expect(question).toHaveProperty("question_body");
-//       });
-//     });
-//   });
+  test("questions data has been inserted correctly", () => {
+    return db
+      .query<RowDataPacket[]>(`SELECT * FROM questions;`)
+      .then(([questions]) => {
+        expect(questions).toHaveLength(4);
+        questions.forEach((question) => {
+          expect(question).toHaveProperty("question_id");
+          expect(question).toHaveProperty("quiz_id");
+          expect(question).toHaveProperty("question_body");
+        });
+      });
+  });
 
-//   test("questionOptions data has been inserted correctly", () => {
-//     return db.query(`SELECT * FROM questionOptions;`).then(({}) => {
-//       expect(questionOptions).toHaveLength(16);
-//       questionOption.forEach((questionOption) => {
-//         expect(questionOption).toHaveProperty("question_options_id");
-//         expect(questionOption).toHaveProperty("question_id");
-//         expect(questionOption).toHaveProperty("option_body");
-//         expect(questionOption).toHaveProperty("is_correct");
-//         expect(questionOption).toHaveProperty("label");
-//       });
-//     });
-//   });
+  test("questionOptions data has been inserted correctly", () => {
+    return db
+      .query<RowDataPacket[]>(`SELECT * FROM questionOptions;`)
+      .then(([questionOptions]) => {
+        expect(questionOptions).toHaveLength(16);
+        questionOptions.forEach((questionOption) => {
+          expect(questionOption).toHaveProperty("question_options_id");
+          expect(questionOption).toHaveProperty("question_id");
+          expect(questionOption).toHaveProperty("option_body");
+          expect(questionOption).toHaveProperty("is_correct");
+          expect(questionOption).toHaveProperty("label");
+        });
+      });
+  });
 
-//   test("attempt data has been inserted correctly", () => {
-//     return db.query(`SELECT * FROM attempt;`).then(({}) => {
-//       expect(attempts).toHaveLength(4);
-//       attempts.forEach((attempt) => {
-//         expect(attempt).toHaveProperty("question_id");
-//         expect(attempt).toHaveProperty("quiz_id");
-//         expect(attempt).toHaveProperty("question_body");
-//       });
-//     });
-//   });
+  test("attempt data has been inserted correctly", () => {
+    return db
+      .query<RowDataPacket[]>(`SELECT * FROM attempt;`)
+      .then(([attempts]) => {
+        console.log(attempts);
+        expect(attempts).toHaveLength(4);
+        attempts.forEach((attempt) => {
+          expect(attempt).toHaveProperty("attempt_id");
+          expect(attempt).toHaveProperty("quiz_id");
+          expect(attempt).toHaveProperty("score");
+        });
+      });
+  });
 
-//   test("attemptAnswer data has been inserted correctly", () => {
-//     return db.query(`SELECT * FROM attemptAnswer;`).then(({}) => {
-//       expect(attemptAnswers).toHaveLength(4);
-//       attemptAnswers.forEach((attemattemptAnswer) => {
-//         expect(attemptAnswer).toHaveProperty("attempt_answer_id");
-//         expect(attemptAnswer).toHaveProperty("question_options_id");
-//         expect(attemptAnswer).toHaveProperty("question_id");
-//         expect(attemptAnswer).toHaveProperty("attempt_id");
-//       });
-//     });
-//   });
-// });
+  test("attemptAnswer data has been inserted correctly", () => {
+    return db
+      .query<RowDataPacket[]>(`SELECT * FROM attemptAnswer;`)
+      .then(([attemptAnswers]) => {
+        expect(attemptAnswers).toHaveLength(4);
+        attemptAnswers.forEach((attemptAnswer) => {
+          expect(attemptAnswer).toHaveProperty("attempt_answer_id");
+          expect(attemptAnswer).toHaveProperty("question_options_id");
+          expect(attemptAnswer).toHaveProperty("question_id");
+          expect(attemptAnswer).toHaveProperty("attempt_id");
+        });
+      });
+  });
+});

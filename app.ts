@@ -16,6 +16,7 @@ const {
 import { apiRouter } from "./routes/api-router";
 import postUsers from "./controllers/users_controller";
 import { getQuizByUserId, postQuizzes } from "./controllers/quizzes_controller";
+import { postOptions } from "./controllers/options_controller";
 
 // const { getEndpoints } = require("./controllers/endpoints_controller")
 // const { uploadFiles } = require("../controllers/files_controller")
@@ -47,7 +48,7 @@ app.get("/quizzes/:user_id", getQuizByUserId);
 // app.get("/questions/:quiz_id", getQuestionsById)
 
 // //Question Options
-// app.post("question_options", postOptions)
+app.post("/question_options", postOptions)
 // app.get("/question_options/:question_id", getOptionsByQuestionId)
 
 // //Attempted answers

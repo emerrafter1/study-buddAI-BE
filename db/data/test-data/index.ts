@@ -1,19 +1,19 @@
-import attemptAnswersTestData from "./attempts_answers";
-import attemptsTestData from "./attempts-data";
-import filesTestData from "./files-data";
-import questionOptionsTestData from "./question-options";
-import questionsTestData from "./questions-data";
-import quizzesTestData from "./quizzes-data";
-import usersTestData from "./user-data";
+import attemptAnswerData from "./attempts_answers"; // singular
+import attemptData from "./attempts-data"; // singular
+import filesData from "./files-data";
+import questionOptionsData from "./question-options";
+import questionsData from "./questions-data";
+import quizzesData from "./quizzes-data";
+import usersData from "./user-data";
 
 const devData = {
-  attemptAnswersTestData,
-  attemptsTestData,
-  filesTestData,
-  questionOptionsTestData,
-  questionsTestData,
-  quizzesTestData,
-  usersTestData,
+  attemptAnswerData,
+  attemptData,
+  filesData,
+  questionOptionsData,
+  questionsData,
+  quizzesData,
+  usersData,
 };
 
 export default devData;

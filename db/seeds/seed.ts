@@ -31,6 +31,7 @@ const seed = async ({
 
   await connection.query(`CREATE TABLE users (
         user_id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(255),
         password VARCHAR(255),
         email_address VARCHAR(255) UNIQUE
       );
@@ -43,6 +44,7 @@ const seed = async ({
     `);
   await connection.query(`CREATE TABLE quizzes (
         quiz_id INT AUTO_INCREMENT PRIMARY KEY,
+        created_at TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP(3),
         user_id INT NOT NULL, FOREIGN KEY (user_id) REFERENCES users(user_id),
         quiz_name VARCHAR(255) NOT NULL, 
         file_id INT NOT NULL, FOREIGN KEY (file_id) REFERENCES files(file_id)
@@ -77,6 +79,37 @@ const seed = async ({
         attempt_id INT NOT NULL, FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)
       );
     `);
+
+    for (const user of usersData) {
+      await connection.execute(
+        `INSERT INTO users (username, password, email_address) VALUES (?, ?, ?)`,
+        [user.username, user.password, user.email]
+      );
+    }
+
+    for (const file of filesData) {
+      await connection.execute(
+        `INSERT INTO files (file_pdf, user_id) VALUES (?, ?)`,
+        [file.file_path, file.user_id]
+      );
+    }
+
+    for (const quiz of quizzesData) {
+      const date = new Date(quiz.created_at);
+      await connection.execute(
+        `INSERT INTO quizzes (created_at, user_id , quiz_name, file_id) VALUES (?, ?, ?, ?)`,
+        [date, quiz.user_id, quiz.quiz_name, quiz.file_id]
+      );
+    }
+
+    for (const questions of questionsData) {
+      await connection.execute(
+        `INSERT INTO questions (quiz_id, question_body) VALUES (?, ?)`,
+        [questions.quiz_id, questions.question_text]
+      );
+    }
+
+
 };
 
 export default seed;

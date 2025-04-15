@@ -671,7 +671,6 @@ describe("data insertion", () => {
     return db
       .query<RowDataPacket[]>(`SELECT * FROM attempt;`)
       .then(([attempts]) => {
-        console.log(attempts);
         expect(attempts).toHaveLength(4);
         attempts.forEach((attempt) => {
           expect(attempt).toHaveProperty("attempt_id");
@@ -692,6 +691,85 @@ describe("data insertion", () => {
           expect(attemptAnswer).toHaveProperty("question_id");
           expect(attemptAnswer).toHaveProperty("attempt_id");
         });
+      });
+  });
+});
+
+//common errors
+
+describe("tests to check common errors", () => {
+  test("check all files foreign keys are not null", () => {
+    return db.query<RowDataPacket[]>(`SELECT * FROM files;`).then(([files]) => {
+      expect(files.length).toBeGreaterThan(0);
+
+      files.forEach(({ user_id }) => {
+        expect(user_id).not.toBeNull();
+      });
+    });
+  });
+
+  test("check all quiz foreign keys are not null", () => {
+    return db
+      .query<RowDataPacket[]>(`SELECT * FROM quizzes;`)
+      .then(([quizzes]) => {
+        expect(quizzes.length).toBeGreaterThan(0);
+
+        quizzes.forEach(({ user_id, file_id }) => {
+          expect(user_id).not.toBeNull();
+          expect(file_id).not.toBeNull();
+        });
+      });
+  });
+
+  test("check all question foreign keys are not null", () => {
+    return db
+      .query<RowDataPacket[]>(`SELECT * FROM questions;`)
+      .then(([questions]) => {
+        expect(questions.length).toBeGreaterThan(0);
+
+        questions.forEach(({ quiz_id }) => {
+          expect(quiz_id).not.toBeNull();
+        });
+      });
+  });
+
+  test("check all questionOptions foreign keys are not null", () => {
+    return db
+      .query<RowDataPacket[]>(`SELECT * FROM questionOptions;`)
+      .then(([questions]) => {
+        expect(questions.length).toBeGreaterThan(0);
+
+        questions.forEach(({ question_id }) => {
+          expect(question_id).not.toBeNull();
+        });
+      });
+  });
+
+  test("check all attempt foreign keys are not null", () => {
+    return db
+      .query<RowDataPacket[]>(`SELECT * FROM attempt;`)
+      .then(([attempts]) => {
+        expect(attempts.length).toBeGreaterThan(0);
+
+        attempts.forEach(({ quiz_id }) => {
+          expect(quiz_id).not.toBeNull();
+        });
+      });
+  });
+
+  test("check all attemptAnswer foreign keys are not null", () => {
+    return db
+      .query<RowDataPacket[]>(`SELECT * FROM attemptAnswer;`)
+      .then(([attemptAnswers]) => {
+        expect(attemptAnswers.length).toBeGreaterThan(0);
+
+        attemptAnswers.forEach(
+          ({ question_options_id, question_id, attempt_id }) => {
+            expect(question_options_id).not.toBeNull();
+            expect(question_id).not.toBeNull();
+            expect(attempt_id).not.toBeNull();
+          }
+        );
       });
   });
 });

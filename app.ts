@@ -5,14 +5,14 @@ const app = express()
 
 app.use(cors())
 app.use(express.json());
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express';
 
-const { handleServerErrors, 
-    handlePsqlErrors, 
+const { handleServerErrors,
+    handlePsqlErrors,
     handleCustomErrors,
-} = require("./controllers/errors.controller")
+} = require("./controllers/errors.controller");
 
-import { apiRouter } from './routes/api-router'
+import { apiRouter } from './routes/api-router';
 import  postUsers from "./controllers/users_controller"
 
 
@@ -24,9 +24,9 @@ import  postUsers from "./controllers/users_controller"
 // const { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } = require("../controllers/answers_attempt_controller")
 // const { postQuizAttempt, updateQuizAttemptById } = require("../controllers/quiz_attempts_controller")
 
-// //MIDDLEWARE
-// app.use(express.json())
-// app.use("/api", apiRouter);
+//MIDDLEWARE
+app.use(express.json());
+app.use("/api", apiRouter);
 // app.use('/api/files', apiRouter);
 
 // //Users
@@ -67,8 +67,8 @@ app.post("/users", postUsers)
 //     res.status(404).send({ msg: "Path not found" });
 //   });
 
-// app.use(handlePsqlErrors);
-// app.use(handleCustomErrors);
-// app.use(handleServerErrors);
+app.use(handlePsqlErrors);
+app.use(handleCustomErrors);
+app.use(handleServerErrors);
 
 export default app;

@@ -151,12 +151,12 @@ describe("seed", () => {
           `SELECT column_name, data_type
                               FROM information_schema.columns
                               WHERE table_name = 'files'
-                              AND column_name = 'file_pdf';`
+                              AND column_name = 'file_text';`
         )
         .then(([rows]) => {
           const column = rows[0];
-          expect(column.COLUMN_NAME).toBe("file_pdf");
-          expect(column.DATA_TYPE).toBe("varchar");
+          expect(column.COLUMN_NAME).toBe("file_text");
+          expect(column.DATA_TYPE).toBe("longtext");
         });
     });
 
@@ -323,7 +323,7 @@ describe("seed", () => {
         .then(([rows]) => {
           const column = rows[0];
           expect(column.COLUMN_NAME).toBe("question_body");
-          expect(column.DATA_TYPE).toBe("varchar");
+          expect(column.DATA_TYPE).toBe("longtext");
         });
     });
   });
@@ -399,7 +399,7 @@ describe("seed", () => {
         .then(([rows]) => {
           const column = rows[0];
           expect(column.COLUMN_NAME).toBe("option_body");
-          expect(column.DATA_TYPE).toBe("varchar");
+          expect(column.DATA_TYPE).toBe("longtext");
         });
     });
 
@@ -604,7 +604,7 @@ describe("seed", () => {
 //       expect(files).toHaveLength(4);
 //       file.forEach((file) => {
 //         expect(file).toHaveProperty("file_id");
-//         expect(file).toHaveProperty("file_pdf");
+//         expect(file).toHaveProperty("longtext");
 //         expect(file).toHaveProperty("user_id");
 //       });
 //     });

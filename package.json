@@ -5,7 +5,9 @@
   "type": "commonjs",
   "scripts": {
     "test": "jest",
-    "setup-db": "mysql -u root -p $MYSQL_DATABASE < ./db/setup-dbs.sql"
+    "setup-db": "mysql -u root -p $MYSQL_DATABASE < ./db/setup-dbs.sql",
+    "seed": "node ./db/seeds/run-seed.js",
+    "compile-seed": "npx tsc db/seeds/seed.ts" 
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,9 @@
     "@types/express": "^5.0.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.14.0",
+
+    "bcrypt": "^5.1.1",
+
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
@@ -23,6 +28,9 @@
     "pdf-parse": "^1.1.1"
   },
   "devDependencies": {
+
+    "@types/bcrypt": "^5.0.2",
+
     "@types/cors": "^2.8.17",
     "@types/jest": "^29.5.14",
     "@types/multer": "^1.4.12",

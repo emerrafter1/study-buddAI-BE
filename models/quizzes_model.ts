@@ -9,18 +9,13 @@ type Quizzes = {
 };
 
 export const fetchUserQuizzes = async (user_id: number): Promise<Quizzes[]> => {
-
-    
   const [rows] = await db.query(`SELECT * FROM quizzes WHERE user_id = ?`, [
     user_id,
   ]);
 
   const quizzes = rows as Quizzes[];
 
-  console.log(quizzes.length)
-
   if (quizzes.length === 0) {
-    console.log("404")
     return Promise.reject({ status: 404, msg: "Not found" });
   }
 

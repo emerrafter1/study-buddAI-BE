@@ -1,5 +1,5 @@
-export const handlePsqlErrors = (err, req, res, next) => {
-    if(err.code === "22P02") {
+export const handleMySqlErrors = (err, req, res, next) => {
+    if(err.code === "ER_BAD_FIELD_ERROR") {
         return res.status(400).send({msg: "Bad request"})
     }
     next(err)

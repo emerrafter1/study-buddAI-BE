@@ -23,14 +23,27 @@ describe("POST /quizzes/:user_id", () => {
     expect(body.quizzes[0].file_id).toBe(4);
   });
 
+  test("200", async () => {
+    const { body } = await request(app).get("/quizzes/1").expect(200);
+    const quizzes = body.quizzes;
+    expect(quizzes.length).toBe(2);
+    quizzes.forEach((quiz) => {
+      expect(typeof quiz.quiz_id).toBe("number");
+      expect(typeof quiz.user_id).toBe("number");
+      expect(typeof quiz.quiz_name).toBe("string");
+      expect(typeof quiz.file_id).toBe("number");
+      expect(typeof quiz.created_at).toBe("string");
+    });
+  });
+
   test("400: Responds with bad request when an invalid request is made", async () => {
     const { body } = await request(app).get("/quizzes/banana").expect(400);
     expect(body.msg).toBe("Bad request");
   });
 
-  test.only("404: Responds with not found when a valid request when is made and the record does not exist", async () => {
-    const response = await request(app).get("/quizzes/799").expect(404);
-    console.log(response)
-  //  expect(body).toBe("Not found");
+  test("404: Responds with not found when a valid request when is made and the record does not exist", async () => {
+    const { body } = await request(app).get("/quizzes/799").expect(404);
+
+    expect(body.msg).toBe("Not found");
   });
 });

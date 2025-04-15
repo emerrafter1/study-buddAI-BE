@@ -5,11 +5,11 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
 
 const {
   handleServerErrors,
-  handlePsqlErrors,
+  handleMySqlErrors,
   handleCustomErrors,
 } = require("./controllers/errors.controller");
 
@@ -65,7 +65,7 @@ app.get("/quizzes/:user_id", getQuizByUserId);
 //     res.status(404).send({ msg: "Path not found" });
 //   });
 
-app.use(handlePsqlErrors);
+app.use(handleMySqlErrors);
 app.use(handleCustomErrors);
 app.use(handleServerErrors);
 

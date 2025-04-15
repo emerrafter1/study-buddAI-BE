@@ -8,10 +8,7 @@ export const getQuizByUserId = async (
   res: Response,
   next: NextFunction
 ) => {
- 
-
   const { user_id } = req.params;
-  console.log(user_id);
 
   const userId = Number(user_id);
 

@@ -1,10 +1,9 @@
-import { postUsers } from "../controllers/users_controller"
-import { Router } from "express"
+import { Router } from "express";
+import { postUsers } from "../controllers/users_controller";
 
-export const usersRouter = Router()
+const usersRouter = Router();
 
-usersRouter
-.route("/users")
+// POST /users - create a new user
+usersRouter.post("/", postUsers);
 
-
-
+export default usersRouter;

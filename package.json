@@ -2,6 +2,7 @@
   "name": "study-buddai-be",
   "version": "1.0.0",
   "main": "test.js",
+  "type": "commonjs",
   "scripts": {
     "test": "jest",
     "setup-db": "mysql -u root -p $MYSQL_DATABASE < ./db/setup-dbs.sql"
@@ -11,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.14.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",

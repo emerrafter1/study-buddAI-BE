@@ -10,4 +10,4 @@ interface AttemptsTestDataItem {
     { attempt_id: 3, user_id: 1, quiz_id: 3,  score: 4 },
     { attempt_id: 4, user_id: 3, quiz_id: 4,  score: 1 }
   ];
-    module.exports = attemptsTestData;
+   export default attemptsTestData;

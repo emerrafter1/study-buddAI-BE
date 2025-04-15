@@ -24,4 +24,4 @@ interface QuestionOptionsTestDataItem {
     { option_id: 16, question_id: 4, option_body: '6', is_correct: false, label: 'D' }
   ];
     
-    module.exports = questionOptionsTestData;
+  export default questionOptionsTestData;

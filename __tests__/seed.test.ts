@@ -660,7 +660,7 @@ describe("data insertion", () => {
   test("attemptAnswer data has been inserted correctly", () => {
     return db.query(`SELECT * FROM attemptAnswer;`).then(({}) => {
       expect(attemptAnswers).toHaveLength(4);
-      attemptAnswers.forEach((attemattemptAnswert) => {
+      attemptAnswers.forEach((attemattemptAnswer) => {
         expect(attemptAnswer).toHaveProperty("attempt_answer_id");
         expect(attemptAnswer).toHaveProperty("question_options_id");
         expect(attemptAnswer).toHaveProperty("question_id");

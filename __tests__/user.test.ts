@@ -12,7 +12,7 @@ afterAll(() => {
   return db.end();
 });
 
-describe("POST /users", () => {
+describe("POST /api/users", () => { // Updated route path
   test("201: creates and returns a new user", async () => {
     const newUser = {
       username: "janedoe",
@@ -21,7 +21,7 @@ describe("POST /users", () => {
     };
 
     const { body } = await request(app)
-      .post("/users")
+      .post("/api/users") // Updated route path
       .send(newUser)
       .expect(201);
 
@@ -37,7 +37,7 @@ describe("POST /users", () => {
     };
 
     const { body } = await request(app)
-      .post("/users")
+      .post("/api/users") // Updated route path
       .send(badUser)
       .expect(400);
 
@@ -45,18 +45,28 @@ describe("POST /users", () => {
   });
 
   test("409: responds with error if username or email already exists", async () => {
-    const existingUser = {
-      username: "janedoe",
-      email: "jane@example.com",
+    const uniqueUsername = `testuser${Date.now()}`;
+    const uniqueEmail = `test${Date.now()}@example.com`;
+    const nonExistingUser = {
+      username: uniqueUsername,
+      email: uniqueEmail,
       password: "securepass"
     };
 
-    // First insert
-    await request(app).post("/users").send(existingUser).expect(201);
+    // First insert should succeed with unique data
+    await request(app)
+      .post("/api/users")
+      .send(nonExistingUser)
+      .expect(201);
 
-    // Second insert should fail
+    const existingUser = {
+      username: uniqueUsername,
+      email: uniqueEmail,    
+      password: "anotherpass"
+    };
+
     const { body } = await request(app)
-      .post("/users")
+      .post("/api/users")
       .send(existingUser)
       .expect(409);
 

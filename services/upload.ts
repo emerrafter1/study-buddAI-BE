@@ -1,5 +1,6 @@
 import multer from 'multer';
 
+
 //MEMORY STORAGE
 
 export const upload = multer({
@@ -14,5 +15,4 @@ export const upload = multer({
       cb(new Error('Only PDF files are allowed'));
     }
   }
-  
 });

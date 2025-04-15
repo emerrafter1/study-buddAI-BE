@@ -1,7 +1,7 @@
 export interface PDFDocument {
     fileId?: number;
     file_text: string;
-  
+
   }
   
 export type PDFDocumentResponse = PDFDocument & {

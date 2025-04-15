@@ -1,0 +1,1 @@
+import { postUsers } from "../controllers/users_controller";

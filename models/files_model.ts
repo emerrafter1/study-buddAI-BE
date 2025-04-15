@@ -1,0 +1,1 @@
+import { uploadFiles } from "../controllers/files_controller";

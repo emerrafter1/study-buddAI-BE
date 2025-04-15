@@ -176,27 +176,26 @@ describe("seed", () => {
     });
   });
 
-
-    describe("quizzes table", () => {
-      test("quizzes table exists", () => {
-        return db
-          .query<RowDataPacket[]>(
-            `SELECT EXISTS (
+  describe("quizzes table", () => {
+    test("quizzes table exists", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT EXISTS (
           SELECT * 
           FROM information_schema.tables 
           WHERE  table_name = 'quizzes'
       ) AS doesExist `
-          )
-          .then(([rows]) => {
-            const doesExist = (rows[0] as { doesExist: number }).doesExist;
-            expect(doesExist).toBe(1);
-          });
-      });
+        )
+        .then(([rows]) => {
+          const doesExist = (rows[0] as { doesExist: number }).doesExist;
+          expect(doesExist).toBe(1);
+        });
+    });
 
-      test("quizzes table has quiz_id column as the  primary key", () => {
-        return db
-          .query<RowDataPacket[]>(
-            `SELECT kcu.column_name
+    test("quizzes table has quiz_id column as the  primary key", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT kcu.column_name
        FROM information_schema.table_constraints AS tc
        JOIN information_schema.key_column_usage AS kcu
          ON tc.constraint_name = kcu.constraint_name
@@ -205,55 +204,54 @@ describe("seed", () => {
        WHERE tc.constraint_type = 'PRIMARY KEY'
          AND tc.table_name = 'quizzes'
          AND tc.table_schema = DATABASE();`
-          )
-          .then(([rows]) => {
-            expect(rows[0].COLUMN_NAME).toBe("quiz_id");
-          });
-      });
+        )
+        .then(([rows]) => {
+          expect(rows[0].COLUMN_NAME).toBe("quiz_id");
+        });
+    });
 
-      test("quizzes table has user_id column as auto increment", () => {
-        return db
-          .query<RowDataPacket[]>(
-            `SELECT column_name FROM information_schema.columns WHERE  table_name = 'quizzes' AND extra = 'auto_increment';`
-          )
-          .then(([rows]) => {
-            expect(rows[0].COLUMN_NAME).toBe("quiz_id");
-          });
-      });
+    test("quizzes table has user_id column as auto increment", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT column_name FROM information_schema.columns WHERE  table_name = 'quizzes' AND extra = 'auto_increment';`
+        )
+        .then(([rows]) => {
+          expect(rows[0].COLUMN_NAME).toBe("quiz_id");
+        });
+    });
 
-      // quizzes table has a reference column to user_id
+    // quizzes table has a reference column to user_id
 
-      test("quizzes table has quiz_name as varying character", () => {
-        return db
-          .query<RowDataPacket[]>(
-            `SELECT column_name, data_type
+    test("quizzes table has quiz_name as varying character", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT column_name, data_type
                               FROM information_schema.columns
                               WHERE table_name = 'quizzes'
                               AND column_name = 'quiz_name';`
-          )
-          .then(([rows]) => {
-            const column = rows[0];
-            expect(column.COLUMN_NAME).toBe("quiz_name");
-            expect(column.DATA_TYPE).toBe("varchar");
-          });
-      });
+        )
+        .then(([rows]) => {
+          const column = rows[0];
+          expect(column.COLUMN_NAME).toBe("quiz_name");
+          expect(column.DATA_TYPE).toBe("varchar");
+        });
+    });
 
-      test("quizzes table has a file_id column as an int", () => {
-        return db
-          .query<RowDataPacket[]>(
-            `SELECT column_name, data_type
+    test("quizzes table has a file_id column as an int", () => {
+      return db
+        .query<RowDataPacket[]>(
+          `SELECT column_name, data_type
                                 FROM information_schema.columns
                                 WHERE table_name = 'quizzes'
                                 AND column_name = 'file_id';`
-          )
-          .then(([rows]) => {
-            const column = rows[0];
-            expect(column.COLUMN_NAME).toBe("file_id");
-            expect(column.DATA_TYPE).toBe("int");
-          });
-      });
+        )
+        .then(([rows]) => {
+          const column = rows[0];
+          expect(column.COLUMN_NAME).toBe("file_id");
+          expect(column.DATA_TYPE).toBe("int");
+        });
     });
-
+  });
 
   describe("questions table", () => {
     test("questions table exists", () => {
@@ -405,7 +403,7 @@ describe("seed", () => {
         });
     });
 
-    // check why this is tiny int because 1 0 
+    // check why this is tiny int because 1 0
     test.only("questionOptions table has a is_correct column as boolean", () => {
       return db
         .query<RowDataPacket[]>(
@@ -585,6 +583,89 @@ describe("seed", () => {
           expect(column.COLUMN_NAME).toBe("attempt_id");
           expect(column.DATA_TYPE).toBe("int");
         });
+    });
+  });
+});
+
+describe("data insertion", () => {
+  test("users data has been inserted correctly", () => {
+    return db.query(`SELECT * FROM users;`).then(({}) => {
+      expect(users).toHaveLength(5);
+      users.forEach((user) => {
+        expect(user).toHaveProperty("user_id");
+        expect(user).toHaveProperty("password");
+        expect(user).toHaveProperty("email_address");
+      });
+    });
+  });
+
+  test("files data has been inserted correctly", () => {
+    return db.query(`SELECT * FROM files;`).then(({}) => {
+      expect(files).toHaveLength(4);
+      file.forEach((file) => {
+        expect(file).toHaveProperty("file_id");
+        expect(file).toHaveProperty("file_pdf");
+        expect(file).toHaveProperty("user_id");
+      });
+    });
+  });
+
+  test("quizzes data has been inserted correctly", () => {
+    return db.query(`SELECT * FROM quizzes;`).then(({}) => {
+      expect(quizzes).toHaveLength(4);
+      quiz.forEach((quiz) => {
+        expect(quiz).toHaveProperty("quiz_id");
+        expect(quiz).toHaveProperty("user_id");
+        expect(quiz).toHaveProperty("quiz_name");
+        expect(quiz).toHaveProperty("file_id");
+      });
+    });
+  });
+
+  test("questions data has been inserted correctly", () => {
+    return db.query(`SELECT * FROM questions;`).then(({}) => {
+      expect(questions).toHaveLength(4);
+      question.forEach((question) => {
+        expect(question).toHaveProperty("question_id");
+        expect(question).toHaveProperty("quiz_id");
+        expect(question).toHaveProperty("question_body");
+      });
+    });
+  });
+
+  test("questionOptions data has been inserted correctly", () => {
+    return db.query(`SELECT * FROM questionOptions;`).then(({}) => {
+      expect(questionOptions).toHaveLength(16);
+      questionOption.forEach((questionOption) => {
+        expect(questionOption).toHaveProperty("question_options_id");
+        expect(questionOption).toHaveProperty("question_id");
+        expect(questionOption).toHaveProperty("option_body");
+        expect(questionOption).toHaveProperty("is_correct");
+        expect(questionOption).toHaveProperty("label");
+      });
+    });
+  });
+
+  test("attempt data has been inserted correctly", () => {
+    return db.query(`SELECT * FROM attempt;`).then(({}) => {
+      expect(attempts).toHaveLength(4);
+      attempts.forEach((attempt) => {
+        expect(attempt).toHaveProperty("question_id");
+        expect(attempt).toHaveProperty("quiz_id");
+        expect(attempt).toHaveProperty("question_body");
+      });
+    });
+  });
+
+  test("attemptAnswer data has been inserted correctly", () => {
+    return db.query(`SELECT * FROM attemptAnswer;`).then(({}) => {
+      expect(attemptAnswers).toHaveLength(4);
+      attemptAnswers.forEach((attemattemptAnswert) => {
+        expect(attemptAnswer).toHaveProperty("attempt_answer_id");
+        expect(attemptAnswer).toHaveProperty("question_options_id");
+        expect(attemptAnswer).toHaveProperty("question_id");
+        expect(attemptAnswer).toHaveProperty("attempt_id");
+      });
     });
   });
 });

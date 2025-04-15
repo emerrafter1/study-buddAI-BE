@@ -13,7 +13,6 @@ export const insertQuestionOption = async (question_id :number,
     label: string) => {
 
 
-      console.log(question_id, option_body, is_correct, label)
 
         const [result] = (await db.query(
             `INSERT INTO questionOptions (question_id, option_body, is_correct, label) VALUES (?, ?, ?, ?)`,

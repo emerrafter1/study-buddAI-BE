@@ -20,7 +20,6 @@ export const postOptions = async (
     );
     res.status(201).send({ questionOption });
   } catch (err) {
-    console.log(err)
     next(err);
   }
 };

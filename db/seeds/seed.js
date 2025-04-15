@@ -48,10 +48,10 @@ var seed = function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) 
                 return [4 /*yield*/, connection.beginTransaction()];
             case 2:
                 _c.sent();
-                return [4 /*yield*/, connection.query("DROP TABLE IF EXISTS attempt")];
+                return [4 /*yield*/, connection.query("DROP TABLE IF EXISTS attemptAnswer")];
             case 3:
                 _c.sent();
-                return [4 /*yield*/, connection.query("DROP TABLE IF EXISTS attemptAnswer")];
+                return [4 /*yield*/, connection.query("DROP TABLE IF EXISTS attempt")];
             case 4:
                 _c.sent();
                 return [4 /*yield*/, connection.query("DROP TABLE IF EXISTS questionOptions")];
@@ -69,26 +69,28 @@ var seed = function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) 
                 return [4 /*yield*/, connection.query("DROP TABLE IF EXISTS users;")];
             case 9:
                 _c.sent();
-                return [4 /*yield*/, connection.query("CREATE TABLE users (\n        user_id INT AUTO_INCREMENT PRIMARY KEY,\n        password VARCHAR,\n        email_address VARCHAR UNIQUE\n      );\n    ")];
+                return [4 /*yield*/, connection.query("CREATE TABLE users (\n        user_id INT AUTO_INCREMENT PRIMARY KEY,\n        password VARCHAR(255),\n        email_address VARCHAR(255) UNIQUE\n      );\n    ")];
             case 10:
                 _c.sent();
-                return [4 /*yield*/, connection.query("CREATE TABLE files (\n        file_id INT AUTO_INCREMENT PRIMARY KEY,\n        file_pdf VARCHAR NOT NULL,\n        user_id INT NOT NULL, FOREIGN KEY (user_id) REFERENCES users(user_id)\n      );\n    ")];
+                return [4 /*yield*/, connection.query("CREATE TABLE files (\n        file_id INT AUTO_INCREMENT PRIMARY KEY,\n        file_pdf VARCHAR(255) NOT NULL,\n        user_id INT NOT NULL, FOREIGN KEY (user_id) REFERENCES users(user_id)\n      );\n    ")];
             case 11:
                 _c.sent();
-                return [4 /*yield*/, connection.query("CREATE TABLE quizzes (\n        quiz_id INT AUTO_INCREMENT PRIMARY KEY,\n        user_id INT NOT NULL, FOREIGN KEY (user_id) REFERENCES users(user_id),\n        quiz_name VARCHAR NOT NULL, \n        file_id INT NOT NULL, FOREIGN KEY (file_id) REFERENCES files(file_id)\n      );\n    ")];
+                return [4 /*yield*/, connection.query("CREATE TABLE quizzes (\n        quiz_id INT AUTO_INCREMENT PRIMARY KEY,\n        user_id INT NOT NULL, FOREIGN KEY (user_id) REFERENCES users(user_id),\n        quiz_name VARCHAR(255) NOT NULL, \n        file_id INT NOT NULL, FOREIGN KEY (file_id) REFERENCES files(file_id)\n      );\n    ")];
             case 12:
                 _c.sent();
-                return [4 /*yield*/, connection.query("CREATE TABLE questions (\n        question_id INT AUTO_INCREMENT PRIMARY KEY,\n        quiz_id INT NOT NULL, FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),\n        question_body VARCHAR\n      );\n    ")];
+                return [4 /*yield*/, connection.query("CREATE TABLE questions (\n        question_id INT AUTO_INCREMENT PRIMARY KEY,\n        quiz_id INT NOT NULL, FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),\n        question_body VARCHAR(255)\n      );\n    ")];
             case 13:
                 _c.sent();
-                return [4 /*yield*/, connection.query("CREATE TABLE questionOptions (\n        question_options_id INT AUTO_INCREMENT PRIMARY KEY,\n        question_id INT NOT NULL, FOREIGN KEY (question_id) REFERENCES questions(question_id),\n        option_body VARCHAR NOT NULL,\n        is_correct BOOLEAN NOT NULL,\n        label VARCHAR NOT NULL\n      );\n    ")];
+                return [4 /*yield*/, connection.query("CREATE TABLE questionOptions (\n        question_options_id INT AUTO_INCREMENT PRIMARY KEY,\n        question_id INT NOT NULL, FOREIGN KEY (question_id) REFERENCES questions(question_id),\n        option_body VARCHAR(255) NOT NULL,\n        is_correct BOOLEAN NOT NULL,\n        label VARCHAR(255) NOT NULL\n      );\n    ")];
             case 14:
                 _c.sent();
-                return [4 /*yield*/, connection.query("CREATE TABLE attempt (\n        attempt_id INT AUTO_INCREMENT PRIMARY KEY,\n        quiz_id INT NOT NULL, FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),\n        score DECIMAL(0,2) DEFAULT 0 \n      );\n    ")];
+                return [4 /*yield*/, connection.query("CREATE TABLE attempt (\n        attempt_id INT AUTO_INCREMENT PRIMARY KEY,\n        quiz_id INT NOT NULL, FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),\n        score DECIMAL(2,2) DEFAULT 0 \n      );\n    ")];
             case 15:
                 _c.sent();
+                //0 total digits can’t hold 2 decimal digits.
                 return [4 /*yield*/, connection.query("CREATE TABLE attemptAnswer (\n        attempt_answer_id INT AUTO_INCREMENT PRIMARY KEY,\n        question_options_id INT NOT NULL, FOREIGN KEY (question_options_id) REFERENCES questionOptions(question_options_id),\n        question_id INT NOT NULL, FOREIGN KEY (question_id) REFERENCES questions(question_id),\n        attempt_id INT NOT NULL, FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)\n      );\n    ")];
             case 16:
+                //0 total digits can’t hold 2 decimal digits.
                 _c.sent();
                 return [2 /*return*/];
         }

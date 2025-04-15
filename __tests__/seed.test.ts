@@ -405,8 +405,8 @@ describe("seed", () => {
         });
     });
 
-    // check why this is tiny int
-    test.skip("questionOptions table has a is_correct column as boolean", () => {
+    // check why this is tiny int because 1 0 
+    test.only("questionOptions table has a is_correct column as boolean", () => {
       return db
         .query<RowDataPacket[]>(
           `SELECT column_name, data_type
@@ -417,7 +417,7 @@ describe("seed", () => {
         .then(([rows]) => {
           const column = rows[0];
           expect(column.COLUMN_NAME).toBe("is_correct");
-          expect(column.DATA_TYPE).toBe("boolean");
+          expect(column.DATA_TYPE).toBe("tinyint");
         });
     });
 

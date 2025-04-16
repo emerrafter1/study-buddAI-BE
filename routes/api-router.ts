@@ -19,7 +19,7 @@
 
 import { Router } from "express";
 import usersRouter from "./users-router";
-import { quizzesRouter } from "./quizzes-router";
+// import { quizzesRouter } from "./quizzes-router";
 import  filesRouter  from "./files-router";
 const apiRouter = Router();
 

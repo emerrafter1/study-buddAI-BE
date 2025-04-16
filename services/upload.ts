@@ -10,10 +10,10 @@ import multer from 'multer';
   fileFilter: (req, file, cb) => {
 
     if (file.mimetype === 'application/pdf') {
-      console.log(file, "<<<<<<file in Multer")
+      // console.log(file, "<<<<<<file in Multer")
       cb(null, true);
     } else {
-      console.log("not a pdf")
+      // console.log("not a pdf")
       cb(new Error('Not a valid PDF file'))
     }
 

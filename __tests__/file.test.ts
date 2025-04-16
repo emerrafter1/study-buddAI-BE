@@ -19,7 +19,7 @@ afterAll(() => {
 describe("POST /files/upload", () => {
 
   test("201: Successfully uploads a PDF file", async () => {
-    const testPdfPath = path.resolve(__dirname, "../assets/test_file.pdf");
+    const testPdfPath = path.resolve(__dirname, "../assets/wiki.pdf");
     const response = await request(app)
       .post("/files/upload")
       .attach('file', testPdfPath)

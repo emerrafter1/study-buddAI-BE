@@ -42,7 +42,7 @@ app.get("/", (req, res)=> {
 });
 
 // //Users
-app.post("/users", postUsers);
+app.post("/api/users", postUsers);
 
 // //PDF files
 // app.post("/upload", uploadFiles)
@@ -54,8 +54,8 @@ app.get("/quizzes/:user_id", getQuizByUserId);
 // app.delete("/quizzes/:quid_id", deleteQuizById) // to be added later
 
 // //Quiz Questions
-app.post("/questions", postQuestions )
-app.get("/questions/:quiz_id", getQuestionsById)
+app.post("/api/questions", postQuestions )
+app.get("/api/questions/:quiz_id", getQuestionsById)
 
 // //Question Options
 app.post("/question_options", postOptions)

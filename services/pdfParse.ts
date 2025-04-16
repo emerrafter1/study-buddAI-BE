@@ -1,9 +1,8 @@
 import pdf from 'pdf-parse';
 
-
 const extractTextFromPdf = async (buffer: Buffer) => {
   try {
-    // More thorough validation
+
     if (!buffer || buffer.length < 8) {
       throw new Error('File too small to be a valid PDF');
     }
@@ -12,7 +11,6 @@ const extractTextFromPdf = async (buffer: Buffer) => {
     if (!header.includes('%PDF')) {
       throw new Error(`Not a PDF file. Starts with: ${header.substring(0, 20)}`);
     }
-
     const data = await pdf(buffer);
     return { text: data.text };
   } catch (err) {

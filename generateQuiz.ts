@@ -76,4 +76,6 @@ export const generateQuiz = async (user_id: number) => {
       );
     }
   }
+
+  return quizData
 };

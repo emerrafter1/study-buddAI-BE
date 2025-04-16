@@ -1,17 +1,35 @@
-export const handlePsqlErrors = (err, req, res, next) => {
-    if(err.code === "22P02") {
-        return res.status(400).send({msg: "Bad request"})
-    }
-    next(err)
+import { Request, Response, NextFunction } from "express";
+
+interface Error {
+    code?: string;
+    status?: number;
+    msg?: string;
 }
 
-export const handleCustomErrors = (err, req, res, next)=> {
-    if(err.status) {
-        return res.status(err.status).send({msg: err.msg})
+
+const handlePsqlErrors = (err: Error, req: Request, res: Response, next: NextFunction): void => {
+    if (err.code === "22P02") {
+         res.status(400).send({ msg: "Bad request" });
     }
-    next(err)
+    next(err);
+};
+
+interface CustomError extends Error {
+    status: number;
+    msg: string;
 }
 
-export const handleServerErrors = (err, req, res, next) => {
-    res.status(500).send({msg: "Something went wrong!"})
-}
+const handleCustomErrors = (err: CustomError, req: Request, res: Response, next: NextFunction): void => {
+    if (err.status) {
+         res.status(err.status).send({ msg: err.msg });
+    }
+    next(err);
+};
+
+interface ServerError extends Error {}
+
+const handleServerErrors = (err: ServerError, req: Request, res: Response, next: NextFunction): void => {
+    res.status(500).send({ msg: "Something went wrong!" });
+};
+
+export default { handleCustomErrors, handlePsqlErrors, handleServerErrors }

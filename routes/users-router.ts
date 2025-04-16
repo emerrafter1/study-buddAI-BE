@@ -1,10 +1,11 @@
-import { postUsers } from "../controllers/users_controller"
-import { Router } from "express"
+// import { postUsers } from "../controllers/users_controller"
+// import { Router } from "express"
 
-export const usersRouter = Router()
+// const usersRouter = Router()
 
-usersRouter
-.route("/users")
+// usersRouter
+// .route("/users")
+// .post(postUsers)
 
 
-
+// export default usersRouter

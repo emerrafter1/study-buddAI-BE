@@ -1,11 +1,6 @@
-export interface PDFDocument {
-    fileId?: number;
-    file_text: string;
+interface PDFDocument {
+  file_text: string;
+  user_id:number
+}
 
-  }
-  
-export type PDFDocumentResponse = PDFDocument & {
-    textPreview?: string;
-  };
-
-  export type CreatePDFDocument = Omit<PDFDocument, 'id'|'createdAt'>;
+export { PDFDocument };

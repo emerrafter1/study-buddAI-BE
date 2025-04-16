@@ -1,5 +1,5 @@
-import db from "../db/connection"
+// import db from "../db/connection"
 
-export const postUsers = async () => {}
+// export const postUsers = async () => {}
 
 

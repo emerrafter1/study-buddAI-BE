@@ -1,9 +1,11 @@
 import { Request } from 'express';
 import { Multer } from 'multer';
 
-declare module 'express' {
-  interface Request {
-    file?: Express.Multer.File;
-    files?: Express.Multer.File[];
+declare global {
+  namespace Express {
+    interface Request {
+      file?: Express.Multer.File;
+      user?:User;
+    }
   }
 }

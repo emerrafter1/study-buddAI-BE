@@ -257,7 +257,7 @@
           "exampleResponse": {
             "answer_attempt": [
               {
-               {"attempt_answer_id..."}
+                "attempt_answer_id...": "example_value"
               }
             ]
           }

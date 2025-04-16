@@ -1,10 +1,11 @@
-import { Router } from "express";
-import { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } from "../controllers/answers_attempt_controller";
+// import { Router } from "express";
+// import getAnswerAttemptByOptionId from "../controllers/answers_attempt_controller";
+// import postAnswerAttemptByOptionId from "../controllers/answers_attempt_controller"
+//  const answersAttemptRouter = Router();
 
-export const answersAttemptRouter = Router();
+// answersAttemptRouter
+//     .route("/attempt_answer/:answer_options_id")
+//     .get(getAnswerAttemptByOptionId)
+//     .post(postAnswerAttemptByOptionId);
 
-answersAttemptRouter
-    .route("/attempt_answer/:answer_options_id")
-    .get(getAnswerAttemptByOptionId)
-    .post(postAnswerAttemptByOptionId);
-
+// export default answersAttemptRouter

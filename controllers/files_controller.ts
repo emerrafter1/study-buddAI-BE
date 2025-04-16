@@ -1,45 +1,46 @@
-import db from "../db/connection"
-import { Request, Response } from 'express';
-import { extractTextFromPdf } from '../services/pdfParse';
-import { insertFileData } from '../models/files_model';
-import { PDFDocument } from '../types/pdfTypes';
+import { Request, Response } from "express";
+import  extractTextFromPdf from "../services/pdfParse";
+import { NextFunction } from "express-serve-static-core";
+import insertFileData from "../models/files_model";
 
-export const  uploadFiles= async (
-    req: Request,
-    res: Response,
-  ): Promise<void> => {
- 
-  if (!req.file) {
-       res.status(400).json({ error: 'No PDF uploaded' });
-       return;
+const uploadFiles = async (req: Request, res: Response): Promise<void> => {
+  try {
+    console.log('Upload request received. File exists?', !!req.file);
+    if (!req.file) {
+      res.status(400).json({ error: "No PDF uploaded" });
+      return; 
     }
-   
-    let dbConnection= await db.getConnection()
 
-    try {
-      const result: { text: string } = await extractTextFromPdf(req.file.buffer);
-      const text = result.text;
-      const doc:PDFDocument = {
-        file_text:text,
-    };
-  
-    await insertFileData(doc);
-    res.json({success: true, message: 'PDF processed and saved successfully'})
-    .end();
-  
-    } catch (error) {
-      console.error('Processing error:', error);
-       res.status(500).json({
-        error: error instanceof Error ? error.message : 'PDF processing failed'
+    const fileStart = req.file.buffer.toString('utf8', 0, 8);
+    if (!fileStart.includes('%PDF')) {
+       res.status(400).json({ 
+        error: "Not a valid PDF file",
+        details: `File starts with: ${fileStart.substring(0, 20)}`
       });
-    } finally {
-      if (dbConnection) {
-        if ('release' in dbConnection) {
-          if (typeof dbConnection.release === 'function') {
-            dbConnection.release();
-          }
-        }
-      }
+      return;
+      
     }
-    }
-  
+    console.log('File metadata:', {
+      name: req.file.originalname,
+      size: req.file.size,
+      mimetype: req.file.mimetype
+    });
+
+    // Process the PDF
+    const { text } = await extractTextFromPdf(req.file.buffer);
+    await insertFileData.insertFileData(text);
+
+    res.status(201).json({
+      success: true,
+      message: "PDF text saved to database",
+    });
+  } catch (err) {
+    console.error("PDF extraction failed:", err);
+    res.status(500).json({ 
+      error: "PDF processing failed.",
+      details: err instanceof Error ? err.message : 'Unknown error'
+    });
+  }
+};
+
+export default uploadFiles;

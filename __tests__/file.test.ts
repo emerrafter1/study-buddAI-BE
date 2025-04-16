@@ -7,8 +7,6 @@ import path from "path";
 import fs from "fs";
 
 beforeEach(() => {
-  console.log('Type of app:', typeof app); // should be function
-  console.log('Is app a function:', typeof app === 'function'); // true
   return seed(testData);
 });
 

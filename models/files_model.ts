@@ -21,6 +21,7 @@ const insertFileData = async (text:string) => {
   }
 };
 
+
 export default {
   insertFileData,
 };

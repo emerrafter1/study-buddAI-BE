@@ -6,22 +6,22 @@ import { insertQuestion } from "./models/questions_model";
 import { insertQuestionOption } from "./models/options_model";
 
 const questionsAmount = 3;
+
 const quiz_name = "Cheese test quiz"; // get from front end input
-const file_id = 1; // TBC
-const user_id = 1; // get from frontend loggedUser
+
 const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 
-export const generateQuiz = async (file_id: number) => {
+export const generateQuiz = async (user_id: number) => {
   // 1. get the file contents from the db
 
-  const [rows] = await db.query(
-    `SELECT file_text FROM files WHERE file_id = ?`,
-    [file_id]
-  );
+  const [rows] = await db.query(`SELECT * FROM files WHERE user_id = ?`, [
+    user_id,
+  ]);
 
   // send the file text to the gemini api
 
   const fileText = rows[0].file_text;
+  const fileId = rows[0].file_id;
 
   if (!fileText) {
     throw new Error("File text not found for the given file_id");
@@ -48,7 +48,9 @@ export const generateQuiz = async (file_id: number) => {
   }
   const quizData = JSON.parse(quizString);
 
-  const quizInsert = await insertQuiz(user_id, quiz_name, file_id);
+  // insert into Quiz table
+
+  const quizInsert = await insertQuiz(user_id, quiz_name, fileId);
 
   const newQuizId = quizInsert.quiz_id;
 

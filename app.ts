@@ -17,7 +17,7 @@ import { apiRouter } from "./routes/api-router";
 import postUsers from "./controllers/users_controller";
 import { getQuizByUserId, postQuizzes } from "./controllers/quizzes_controller";
 import { postOptions, getOptionsByQuestionId } from "./controllers/options_controller";
-
+import filesRouter from "./routes/files-router";
 // const { getEndpoints } = require("./controllers/endpoints_controller")
 // const { uploadFiles } = require("../controllers/files_controller")
 
@@ -27,9 +27,14 @@ import { postOptions, getOptionsByQuestionId } from "./controllers/options_contr
 // const { postQuizAttempt, updateQuizAttemptById } = require("../controllers/quiz_attempts_controller")
 
 //MIDDLEWARE
+app.use(cors())
 app.use(express.json());
 app.use("/api", apiRouter);
-// app.use('/api/files', apiRouter);
+app.use("/api/files", filesRouter);
+
+app.get("/", (req, res)=> {
+  res.send("Server running");
+});
 
 // //Users
 app.post("/users", postUsers);
@@ -69,5 +74,13 @@ app.get("/question_options/:question_id", getOptionsByQuestionId)
 app.use(handleMySqlErrors);
 app.use(handleCustomErrors);
 app.use(handleServerErrors);
+
+app.listen(8080, (err?: Error) => {
+  if (err) {
+      console.error(err);
+  } else {
+      console.log("Listening on 8080");
+  }
+});
 
 export default app;

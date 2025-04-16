@@ -1,5 +1,8 @@
-import db from "../db/connection"
+// import db from "../db/connection"
 
-export const getAnswerAttemptByOptionId = async () => {}
+// const getAnswerAttemptByOptionId = async () => {}
 
-export const postAnswerAttemptByOptionId = async () => {}
+// const postAnswerAttemptByOptionId = async () => {}
+
+
+// export default {getAnswerAttemptByOptionId, postAnswerAttemptByOptionId}

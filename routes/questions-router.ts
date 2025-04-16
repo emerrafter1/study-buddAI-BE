@@ -1,14 +1,14 @@
-import { getQuestionsById, postQuestions } from "../controllers/questions_controller";
-import { Router } from "express";
+// import { getQuestionsById, postQuestions } from "../controllers/questions_controller";
+// import { Router } from "express";
 
-export const questionsRouter = Router();
+// const questionsRouter = Router();
+// 
+// questionsRouter
+//    ("/questions")
+//     .get(getQuestionsById)
 
-questionsRouter
-    .route("/questions/")
-    .get(getQuestionsById)
+// questionsRouter
+//     .route("/:quiz_id")
+//     .post(postQuestions)
 
-questionsRouter
-    .route("/:quiz_id")
-    .post(postQuestions)
-
-module.exports = questionsRouter;
+// export default questionsRouter;

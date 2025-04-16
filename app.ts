@@ -17,7 +17,7 @@ import { apiRouter } from "./routes/api-router";
 import postUsers from "./controllers/users_controller";
 import { getQuizByUserId, postQuizzes } from "./controllers/quizzes_controller";
 import { postOptions, getOptionsByQuestionId } from "./controllers/options_controller";
-import { postAnswerAttempt } from "./controllers/answers_attempt_controller";
+import { postAnswerAttempt, getAttemptAnswerByQuestionId } from "./controllers/answers_attempt_controller";
 
 // const { getEndpoints } = require("./controllers/endpoints_controller")
 // const { uploadFiles } = require("../controllers/files_controller")
@@ -53,7 +53,7 @@ app.post("/question_options", postOptions)
 app.get("/question_options/:question_id", getOptionsByQuestionId)
 
 // //Attempted answers
-// app.get("/answer_attempt/:answer_options_id", getAnswerAttemptByOptionId)
+app.get("/attempt_answer/:question_id", getAttemptAnswerByQuestionId)
 app.post("/attempt_answer", postAnswerAttempt) //poat answer
 
 // //Quiz attempt

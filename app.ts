@@ -19,6 +19,7 @@ import { getQuizByUserId, postQuizzes } from "./controllers/quizzes_controller";
 import { postOptions, getOptionsByQuestionId } from "./controllers/options_controller";
 import filesRouter from "./routes/files-router";
 import { postAnswerAttempt, getAttemptAnswerByQuestionId } from "./controllers/answers_attempt_controller";
+import {getQuestionsById, postQuestions} from "./controllers/questions_controller"
 
 // const { getEndpoints } = require("./controllers/endpoints_controller")
 // const { uploadFiles } = require("../controllers/files_controller")
@@ -51,8 +52,8 @@ app.get("/quizzes/:user_id", getQuizByUserId);
 // app.delete("/quizzes/:quid_id", deleteQuizById) // to be added later
 
 // //Quiz Questions
-// app.post("questions", postQuestions )
-// app.get("/questions/:quiz_id", getQuestionsById)
+app.post("/questions", postQuestions )
+app.get("/questions/:quiz_id", getQuestionsById)
 
 // //Question Options
 app.post("/question_options", postOptions)

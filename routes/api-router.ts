@@ -19,11 +19,14 @@
 
 import { Router } from "express";
 import usersRouter from "./users-router";
+import questionsRouter from "./questions-router";
 // import { quizzesRouter } from "./quizzes-router";
 import  filesRouter  from "./files-router";
 const apiRouter = Router();
 
 apiRouter.use("/users", usersRouter);
+apiRouter.use("/questions", questionsRouter);
+apiRouter.use("/questions/:quiz_id", questionsRouter);
 
 export { apiRouter };
 

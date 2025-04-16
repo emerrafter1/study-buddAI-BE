@@ -1,14 +1,11 @@
-// import { getQuestionsById, postQuestions } from "../controllers/questions_controller";
-// import { Router } from "express";
 
-// const questionsRouter = Router();
-// 
-// questionsRouter
-//    ("/questions")
-//     .get(getQuestionsById)
+import { getQuestionsById, postQuestions } from "../controllers/questions_controller";
+import { Router } from "express";
 
-// questionsRouter
-//     .route("/:quiz_id")
-//     .post(postQuestions)
+const questionsRouter = Router();
 
-// export default questionsRouter;
+questionsRouter.get("/:quiz_id", getQuestionsById)
+
+questionsRouter.post("/", postQuestions)
+
+export default questionsRouter;

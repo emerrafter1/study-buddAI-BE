@@ -9,15 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const users_model_1 = require("../models/users_model");
-const postUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const newUser = req.body;
+exports.postAttempt = void 0;
+const attempt_models_1 = require("../models/attempt_models");
+const postAttempt = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { quiz_id } = req.body;
     try {
-        const user = yield (0, users_model_1.insertUser)(newUser);
-        res.status(201).send({ user });
+        const attempt = yield (0, attempt_models_1.insertAttempt)(quiz_id);
+        res.status(201).send({ attempt });
     }
     catch (err) {
         next(err);
     }
 });
-exports.default = postUsers;
+exports.postAttempt = postAttempt;

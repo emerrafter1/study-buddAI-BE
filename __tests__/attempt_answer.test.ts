@@ -12,6 +12,12 @@ afterAll(() => {
   return db.end();
 });
 
+beforeAll(async () => {
+  const connection = await db.getConnection();
+  console.log("Database connected:", connection.config.database);
+});
+
+
 describe("POST /api/attempt_answer", () => {
   test("201", async () => {
     const attemptAnswerRequest = {

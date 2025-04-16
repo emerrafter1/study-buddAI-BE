@@ -23,4 +23,8 @@ const config: PoolOptions = {
 };
 
 const db = createPool(config);
+
+
+console.log("MYSQL_DATABASE:", process.env.MYSQL_DATABASE);
+
 export default db;

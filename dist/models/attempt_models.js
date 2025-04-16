@@ -12,27 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.insertAttempt = void 0;
 const connection_1 = __importDefault(require("../db/connection"));
-//Inserts PDF document data into the database
-//PDF document data including file_text
-//returns Promise with insert result
-const insertFileData = (text) => __awaiter(void 0, void 0, void 0, function* () {
-    let dbConnection = yield connection_1.default.getConnection();
-    try {
-        const [result] = yield dbConnection.execute(`INSERT INTO files 
-       (file_text, user_id)
-       VALUES (?, 2)`, [text]);
-        return result;
-    }
-    catch (error) {
-        console.error("Database insertion error:", error);
-        throw new Error("Failed to insert PDF data");
-    }
-    finally {
-        if (dbConnection)
-            dbConnection.release();
-    }
+const insertAttempt = (quiz_id) => __awaiter(void 0, void 0, void 0, function* () {
+    const [result] = (yield connection_1.default.query(`INSERT INTO attempt (quiz_id, score) VALUES (?, ?)`, [quiz_id, 0]));
+    const newAttemptId = result.insertId;
+    const [rows] = yield connection_1.default.query(`SELECT * FROM attempt WHERE attempt_id = ?`, [newAttemptId]);
+    const attempt = rows[0];
+    return attempt;
 });
-exports.default = {
-    insertFileData,
-};
+exports.insertAttempt = insertAttempt;

@@ -13,26 +13,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const connection_1 = __importDefault(require("../db/connection"));
-//Inserts PDF document data into the database
-//PDF document data including file_text
-//returns Promise with insert result
-const insertFileData = (text) => __awaiter(void 0, void 0, void 0, function* () {
-    let dbConnection = yield connection_1.default.getConnection();
-    try {
-        const [result] = yield dbConnection.execute(`INSERT INTO files 
-       (file_text, user_id)
-       VALUES (?, 2)`, [text]);
-        return result;
+/**
+ * Validates if user exists and returns their ID
+ * @param userId Either string or number user ID
+ * @returns Promise<number> Validated user ID
+ * @throws Error if user doesn't exist
+ */
+const validateAndGetUserId = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const user_id = Number(userId);
+    if (isNaN(user_id)) {
+        throw new Error('Invalid user ID format');
     }
-    catch (error) {
-        console.error("Database insertion error:", error);
-        throw new Error("Failed to insert PDF data");
+    const [rows] = yield connection_1.default.execute('SELECT user_id FROM users WHERE user_id = ?', [user_id]);
+    if (!rows.length) {
+        throw new Error('User not found');
     }
-    finally {
-        if (dbConnection)
-            dbConnection.release();
-    }
+    return rows[0].user_id;
 });
-exports.default = {
-    insertFileData,
-};
+exports.default = validateAndGetUserId;

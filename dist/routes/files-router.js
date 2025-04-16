@@ -7,9 +7,9 @@ const express_1 = __importDefault(require("express"));
 const upload_1 = __importDefault(require("../services/upload"));
 const files_controller_1 = __importDefault(require("../controllers/files_controller"));
 const filesRouter = express_1.default.Router();
-filesRouter.get('/test-route', (req, res) => {
+const multerErrorHandler_1 = __importDefault(require("../middleware/multerErrorHandler"));
+filesRouter.get('/test', (req, res) => {
     res.json({ message: "Router is working!" });
 });
-// Simplified and secured route definition
-filesRouter.post('/upload', upload_1.default.single('file'), files_controller_1.default);
+filesRouter.post('/upload', upload_1.default.single('file'), files_controller_1.default, multerErrorHandler_1.default);
 exports.default = filesRouter;

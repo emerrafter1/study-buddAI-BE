@@ -52,4 +52,5 @@ const config = {
     queueLimit: 0
 };
 const db = (0, promise_1.createPool)(config);
+console.log("MYSQL_DATABASE:", process.env.MYSQL_DATABASE);
 exports.default = db;

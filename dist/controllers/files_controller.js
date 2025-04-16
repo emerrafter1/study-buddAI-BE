@@ -12,36 +12,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const connection_1 = __importDefault(require("../db/connection"));
-const pdfParse_1 = require("../services/pdfParse");
+const pdfParse_1 = __importDefault(require("../services/pdfParse"));
 const files_model_1 = __importDefault(require("../models/files_model"));
 const uploadFiles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.file) {
-        res.status(400).json({ error: 'No PDF uploaded' });
-        return;
-    }
-    let dbConnection = yield connection_1.default.getConnection();
+    var _a, _b, _c;
+    console.log("DEBUG - File received:", {
+        originalname: (_a = req.file) === null || _a === void 0 ? void 0 : _a.originalname,
+        mimetype: (_b = req.file) === null || _b === void 0 ? void 0 : _b.mimetype,
+        size: (_c = req.file) === null || _c === void 0 ? void 0 : _c.size,
+    });
     try {
-        const result = yield (0, pdfParse_1.extractTextFromPdf)(req.file.buffer);
-        const text = result.text;
-        const doc = {
-            file_text: text,
-        };
-        yield (0, files_model_1.default)(doc);
+        if (!req.file) {
+            res.status(400).json({ error: "No PDF uploaded" });
+            return;
+        }
+        const { mimetype, buffer } = req.file;
+        const isMimePdf = mimetype === "application/pdf";
+        const fileStart = buffer.toString("utf8", 0, 8);
+        const isHeaderPdf = fileStart.includes("%PDF");
+        if (!isMimePdf || !isHeaderPdf) {
+            ;
+            res.status(400).json({ error: "Not a valid PDF file" });
+            return;
+        }
+        // Process PDF
+        const { text } = yield (0, pdfParse_1.default)(req.file.buffer);
+        yield files_model_1.default.insertFileData(text);
         res.status(201).json({
             success: true,
-            message: 'PDF processed and saved successfully',
-        })
-            .end();
+            message: "PDF text saved to database",
+        });
     }
-    catch (error) {
-        console.error('Processing error:', error);
-        res.status(500).json({ error: 'PDF processing failed' });
-    }
-    finally {
-        if (dbConnection && typeof dbConnection.release === 'function') {
-            dbConnection.release();
-        }
+    catch (err) {
+        console.error("PDF extraction failed:", err);
+        res.status(500).json({
+            error: "PDF processing failed."
+        });
     }
 });
 exports.default = uploadFiles;

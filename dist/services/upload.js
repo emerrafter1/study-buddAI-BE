@@ -8,14 +8,17 @@ const multer_1 = __importDefault(require("multer"));
 const upload = (0, multer_1.default)({
     storage: multer_1.default.memoryStorage(),
     limits: {
-        fileSize: 5 * 1024 * 1024 // 5MB
+        fileSize: 5 * 1024 * 1024,
+        files: 1
     },
     fileFilter: (req, file, cb) => {
         if (file.mimetype === 'application/pdf') {
+            console.log(file, "<<<<<<file in Multer");
             cb(null, true);
         }
         else {
-            cb(new Error('Only PDF files are allowed'));
+            console.log("not a pdf");
+            cb(new Error('Not a valid PDF file'));
         }
     }
 });

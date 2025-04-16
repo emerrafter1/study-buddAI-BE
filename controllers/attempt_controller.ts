@@ -17,16 +17,11 @@ export const postAttempt = async (
   }
 };
 
-export const postResults = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { attempt_id } = req.body;
-
+export const postResults = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const results = await generateResults(attempt_id);
-    res.status(201).send({ results });
+    const attemptId = Number(req.params.attempt_id);
+    const result = await generateResults(attemptId);
+    res.status(201).send({result});
   } catch (err) {
     next(err);
   }

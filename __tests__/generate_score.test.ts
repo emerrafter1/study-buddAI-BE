@@ -14,10 +14,12 @@ afterAll(() => {
 });
 
 describe("GET /quizzes/:user_id", () => {
-    test("200", async () => {
-      const result = await generateResults(1)
-      console.log(result)
-      
-    });
+  test("200", async () => {
 
+
+    const { body } = await request(app)
+      .post("/api/attempt/1/submit")
+      .expect(201);
+    console.log(body);
+  });
 });

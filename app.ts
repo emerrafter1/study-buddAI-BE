@@ -20,6 +20,7 @@ import { postOptions, getOptionsByQuestionId } from "./controllers/options_contr
 import filesRouter from "./routes/files-router";
 import { postAnswerAttempt, getAttemptAnswerByQuestionId } from "./controllers/answers_attempt_controller";
 import {getQuestionsById, postQuestions} from "./controllers/questions_controller"
+import { postAttempt } from "./controllers/attempt_controller";
 
 // const { getEndpoints } = require("./controllers/endpoints_controller")
 // const { uploadFiles } = require("../controllers/files_controller")
@@ -27,7 +28,7 @@ import {getQuestionsById, postQuestions} from "./controllers/questions_controlle
 // const { getQuestionsById, postQuestions } = require("../controllers/questions_controller")
 // const { getOptionsByQuestionId, postOptions } = require("../controllers/options_controller")
 // const { getAnswerAttemptByOptionId, postAnswerAttemptByOptionId } = require("../controllers/answers_attempt_controller")
-// const { postQuizAttempt, updateQuizAttemptById } = require("../controllers/quiz_attempts_controller")
+// const { postAttempt, updateQuizAttemptById } = require("../controllers/quiz_attempts_controller")
 
 //MIDDLEWARE
 app.use(cors())
@@ -64,7 +65,7 @@ app.get("/attempt_answer/:question_id", getAttemptAnswerByQuestionId)
 app.post("/attempt_answer", postAnswerAttempt) //poat answer
 
 // //Quiz attempt
-// app.post("/attempt", postQuizAttempt) //posts to db
+app.post("/attempt", postAttempt) //posts to db
 // app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
 
 // // *******************************************************************************

@@ -1,4 +1,4 @@
- import request from "supertest";
+import request from "supertest";
 import app from "../app";
 import db from "../db/connection";
 import seed from "../db/seeds/seed";

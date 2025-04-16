@@ -18,6 +18,8 @@ import postUsers from "./controllers/users_controller";
 import { getQuizByUserId, postQuizzes } from "./controllers/quizzes_controller";
 import { postOptions, getOptionsByQuestionId } from "./controllers/options_controller";
 import filesRouter from "./routes/files-router";
+import { postAnswerAttempt, getAttemptAnswerByQuestionId } from "./controllers/answers_attempt_controller";
+
 // const { getEndpoints } = require("./controllers/endpoints_controller")
 // const { uploadFiles } = require("../controllers/files_controller")
 
@@ -57,8 +59,8 @@ app.post("/question_options", postOptions)
 app.get("/question_options/:question_id", getOptionsByQuestionId)
 
 // //Attempted answers
-// app.get("/answer_attempt/:answer_options_id", getAnswerAttemptByOptionId)
-// app.post("answer_attempt/:answer_options_id", postAnswerAttemptByOptionId) //poat answer
+app.get("/attempt_answer/:question_id", getAttemptAnswerByQuestionId)
+app.post("/attempt_answer", postAnswerAttempt) //poat answer
 
 // //Quiz attempt
 // app.post("/attempt", postQuizAttempt) //posts to db
@@ -75,12 +77,12 @@ app.use(handleMySqlErrors);
 app.use(handleCustomErrors);
 app.use(handleServerErrors);
 
-app.listen(8080, (err?: Error) => {
-  if (err) {
-      console.error(err);
-  } else {
-      console.log("Listening on 8080");
-  }
-});
+// app.listen(8080, (err?: Error) => {
+//   if (err) {
+//       console.error(err);
+//   } else {
+//       console.log("Listening on 8080");
+//   }
+// });
 
 export default app;

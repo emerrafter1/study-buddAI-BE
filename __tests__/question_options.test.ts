@@ -12,7 +12,7 @@ afterAll(() => {
   return db.end();
 });
 
-describe("POST /quizzes", () => {
+describe("POST /question_options", () => {
   test("201", async () => {
     const questionOptionRequest = {
       question_id: 4,
@@ -49,7 +49,7 @@ describe("POST /quizzes", () => {
   });
 });
 
-describe("GET /quizzes/:question_id", () => {
+describe("GET /question_options/:question_id", () => {
   test("200", async () => {
     const { body } = await request(app).get("/question_options/2").expect(200);
     const questionOptions = body.questionOptions;
@@ -63,7 +63,9 @@ describe("GET /quizzes/:question_id", () => {
   });
 
   test("400: Responds with bad request when an invalid request is made", async () => {
-    const { body } = await request(app).get("/question_options/banana").expect(400);
+    const { body } = await request(app)
+      .get("/question_options/banana")
+      .expect(400);
     expect(body.msg).toBe("Bad request");
   });
 
@@ -73,3 +75,6 @@ describe("GET /quizzes/:question_id", () => {
     expect(body.msg).toBe("Not found");
   });
 });
+
+
+

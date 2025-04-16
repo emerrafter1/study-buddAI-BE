@@ -1,9 +1,5 @@
 import db from "../db/connection";
 
-//Inserts PDF document data into the database
-//PDF document data including file_text
-//returns Promise with insert result
-
 const insertFileData = async (text:string) => {
   let dbConnection = await db.getConnection();
 

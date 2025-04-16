@@ -3,7 +3,7 @@ import  extractTextFromPdf from "../services/pdfParse";
 import insertFileData from "../models/files_model";
 
 const uploadFiles = async (req: Request, res: Response): Promise<void> => {
-  console.log("DEBUG - File received:", {
+  console.log("File received:", {
     originalname: req.file?.originalname,
     mimetype: req.file?.mimetype,
     size: req.file?.size,
@@ -13,9 +13,7 @@ const uploadFiles = async (req: Request, res: Response): Promise<void> => {
        res.status(400).json({ error: "No PDF uploaded" });
        return
     }
-    
     const { mimetype, buffer } = req.file;
-
     const isMimePdf = mimetype === "application/pdf";
     const fileStart = buffer.toString("utf8", 0, 8);
     const isHeaderPdf = fileStart.includes("%PDF");
@@ -24,7 +22,7 @@ const uploadFiles = async (req: Request, res: Response): Promise<void> => {
        res.status(400).json({ error: "Not a valid PDF file" });
        return
     }
-    // Process PDF
+ 
     const { text } = await extractTextFromPdf(req.file.buffer);
     await insertFileData.insertFileData(text);
 

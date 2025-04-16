@@ -1,11 +1,9 @@
-// import { Router } from "express";
-// import getAnswerAttemptByOptionId from "../controllers/answers_attempt_controller";
-// import postAnswerAttemptByOptionId from "../controllers/answers_attempt_controller"
-//  const answersAttemptRouter = Router();
+import { Router } from "express";
+import { postAnswerAttempt,getAttemptAnswerByQuestionId } from "../controllers/answers_attempt_controller";
 
-// answersAttemptRouter
-//     .route("/attempt_answer/:answer_options_id")
-//     .get(getAnswerAttemptByOptionId)
-//     .post(postAnswerAttemptByOptionId);
+ const answersAttemptRouter = Router();
 
-// export default answersAttemptRouter
+answersAttemptRouter.post("/:question_id", getAttemptAnswerByQuestionId);
+answersAttemptRouter.get("/", postAnswerAttempt);
+
+export default answersAttemptRouter

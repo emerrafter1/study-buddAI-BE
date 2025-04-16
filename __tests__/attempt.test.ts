@@ -18,7 +18,7 @@ describe("POST /attempts", () => {
       quiz_id: 2,
     };
     const { body } = await request(app)
-      .post("/attempt")
+      .post("/api/attempt")
       .send(attemptRequest)
       .expect(201);
 
@@ -34,7 +34,7 @@ describe("POST /attempts", () => {
       quiz_id: "cheese",
     };
     const { body } = await request(app)
-      .post("/attempt")
+      .post("/api/attempt")
       .send(badAttemptRequest)
       .expect(400);
 
@@ -42,11 +42,4 @@ describe("POST /attempts", () => {
   });
 });
 
-
-describe("POST /attempts/:attempt_id/score", () => {
-
-    
-    
-  
-  
-  });
+describe("POST /attempts/:attempt_id/score", () => {});

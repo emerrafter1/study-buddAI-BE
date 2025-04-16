@@ -14,7 +14,7 @@ afterAll(() => {
 
 describe("GET /quizzes/:user_id", () => {
   test("200", async () => {
-    const { body } = await request(app).get("/quizzes/3").expect(200);
+    const { body } = await request(app).get("/api/quizzes/3").expect(200);
     expect(body.quizzes.length).toBe(1);
     expect(body.quizzes[0].user_id).toBe(3);
     expect(body.quizzes[0].quiz_id).toBe(4);
@@ -24,7 +24,7 @@ describe("GET /quizzes/:user_id", () => {
   });
 
   test("200", async () => {
-    const { body } = await request(app).get("/quizzes/1").expect(200);
+    const { body } = await request(app).get("/api/quizzes/1").expect(200);
     const quizzes = body.quizzes;
     expect(quizzes.length).toBe(2);
     quizzes.forEach((quiz) => {
@@ -37,12 +37,12 @@ describe("GET /quizzes/:user_id", () => {
   });
 
   test("400: Responds with bad request when an invalid request is made", async () => {
-    const { body } = await request(app).get("/quizzes/banana").expect(400);
+    const { body } = await request(app).get("/api/quizzes/banana").expect(400);
     expect(body.msg).toBe("Bad request");
   });
 
   test("404: Responds with not found when a valid request when is made and the record does not exist", async () => {
-    const { body } = await request(app).get("/quizzes/799").expect(404);
+    const { body } = await request(app).get("/api/quizzes/799").expect(404);
 
     expect(body.msg).toBe("Not found");
   });
@@ -56,7 +56,7 @@ describe("POST /quizzes", () => {
       file_id: 3,
     };
     const { body } = await request(app)
-      .post("/quizzes")
+      .post("/api/quizzes")
       .send(quizRequest)
       .expect(201);
 
@@ -75,7 +75,7 @@ describe("POST /quizzes", () => {
       file_id: 3,
     };
     const { body } = await request(app)
-      .post("/quizzes")
+      .post("/api/quizzes")
       .send(badQuizRequest)
       .expect(400);
 

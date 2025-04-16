@@ -50,6 +50,6 @@ app.all("*", (req, res) => {
 // app.use(handleCustomErrors);
 // app.use(handleServerErrors);
 app.listen(8080, () => {
-    console.log('Server running on http://localhost:8080');
+    // console.log('Server running on http://localhost:8080');
 });
 exports.default = app;

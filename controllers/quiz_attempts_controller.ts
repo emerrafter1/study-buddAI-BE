@@ -1,5 +1,5 @@
-const db = require("../db/connection")
+// import db from "../db/connection"
 
-export const postQuizAttempt = async () => {}
+// const postQuizAttempt = async () => {}
 
-export const updateQuizAttemptById = async () => {} 
+// const updateQuizAttemptById = async () => {} 

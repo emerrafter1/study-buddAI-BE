@@ -1,14 +1,10 @@
 import { getQuestionsById, postQuestions } from "../controllers/questions_controller";
 import { Router } from "express";
 
-export const questionsRouter = Router();
+const questionsRouter = Router();
 
-questionsRouter
-    .route("/questions/")
-    .get(getQuestionsById)
+questionsRouter.get("/:quiz_id", getQuestionsById)
 
-questionsRouter
-    .route("/:quiz_id")
-    .post(postQuestions)
+questionsRouter.post("/", postQuestions)
 
-module.exports = questionsRouter;
+export default questionsRouter;

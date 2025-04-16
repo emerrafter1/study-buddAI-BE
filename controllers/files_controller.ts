@@ -1,34 +1,33 @@
 import { Request, Response } from "express";
 import  extractTextFromPdf from "../services/pdfParse";
-import { NextFunction } from "express-serve-static-core";
 import insertFileData from "../models/files_model";
 
 const uploadFiles = async (req: Request, res: Response): Promise<void> => {
+  console.log("DEBUG - File received:", {
+    originalname: req.file?.originalname,
+    mimetype: req.file?.mimetype,
+    size: req.file?.size,
+  });
   try {
-    console.log('Upload request received. File exists?', !!req.file);
     if (!req.file) {
-      res.status(400).json({ error: "No PDF uploaded" });
-      return; 
+       res.status(400).json({ error: "No PDF uploaded" });
+       return
     }
+    
+    const { mimetype, buffer } = req.file;
 
-    const fileStart = req.file.buffer.toString('utf8', 0, 8);
-    if (!fileStart.includes('%PDF')) {
-       res.status(400).json({ 
-        error: "Not a valid PDF file",
-        details: `File starts with: ${fileStart.substring(0, 20)}`
-      });
-      return;
-      
+    const isMimePdf = mimetype === "application/pdf";
+    const fileStart = buffer.toString("utf8", 0, 8);
+    const isHeaderPdf = fileStart.includes("%PDF");
+    if (!isMimePdf || !isHeaderPdf) {
+     ;
+       res.status(400).json({ error: "Not a valid PDF file" });
+       return
     }
-    console.log('File metadata:', {
-      name: req.file.originalname,
-      size: req.file.size,
-      mimetype: req.file.mimetype
-    });
-
-    // Process the PDF
+    // Process PDF
     const { text } = await extractTextFromPdf(req.file.buffer);
     await insertFileData.insertFileData(text);
+
 
     res.status(201).json({
       success: true,
@@ -37,8 +36,7 @@ const uploadFiles = async (req: Request, res: Response): Promise<void> => {
   } catch (err) {
     console.error("PDF extraction failed:", err);
     res.status(500).json({ 
-      error: "PDF processing failed.",
-      details: err instanceof Error ? err.message : 'Unknown error'
+      error: "PDF processing failed."
     });
   }
 };

@@ -10,10 +10,11 @@
     "strict": true,
     "skipLibCheck": true,
     "types": ["node", "jest"],
-    "noImplicitAny": false, 
-    "typeRoots": ["./node_modules/@types", "./types"], 
-    "resolveJsonModule": true, 
-    "noUncheckedIndexedAccess": false
+    "noImplicitAny": false,
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": false,
+    "lib": ["ES2015", "DOM"]
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]

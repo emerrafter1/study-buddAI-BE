@@ -49,6 +49,6 @@ export const insertQuiz = async (
   ]);
 
 
-  const quiz = rows[0] as Quiz[];
+  const quiz = rows[0] as Quiz;
   return quiz;
 };

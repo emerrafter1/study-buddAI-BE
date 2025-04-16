@@ -21,6 +21,7 @@ import filesRouter from "./routes/files-router";
 import { postAnswerAttempt, getAttemptAnswerByQuestionId } from "./controllers/answers_attempt_controller";
 import {getQuestionsById, postQuestions} from "./controllers/questions_controller"
 import { postAttempt } from "./controllers/attempt_controller";
+import { generateQuiz } from "./generateQuiz";
 
 // const { getEndpoints } = require("./controllers/endpoints_controller")
 // const { uploadFiles } = require("../controllers/files_controller")
@@ -67,6 +68,9 @@ app.post("/attempt_answer", postAnswerAttempt) //poat answer
 // //Quiz attempt
 app.post("/attempt", postAttempt) //posts to db
 // app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
+
+
+app.post("/generate_quiz", generateQuiz )
 
 // // *******************************************************************************
 

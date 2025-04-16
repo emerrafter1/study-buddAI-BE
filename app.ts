@@ -2,10 +2,10 @@ require("dotenv").config();
 import express from "express";
 import cors from "cors";
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 import { Request, Response, NextFunction } from "express";
+import multer from "multer";
 
 const {
   handleServerErrors,
@@ -29,8 +29,8 @@ import filesRouter from "./routes/files-router";
 //MIDDLEWARE
 app.use(cors())
 app.use(express.json());
-app.use("/api", apiRouter);
-app.use("/api/files", filesRouter);
+// app.use("/api", apiRouter);
+app.use("/files", filesRouter);
 
 app.get("/", (req, res)=> {
   res.send("Server running");
@@ -82,5 +82,6 @@ app.listen(8080, (err?: Error) => {
       console.log("Listening on 8080");
   }
 });
+
 
 export default app;

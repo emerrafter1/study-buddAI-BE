@@ -41,3 +41,12 @@ describe("POST /attempts", () => {
     expect(body.msg).toBe("Bad request");
   });
 });
+
+
+describe("POST /attempts/:attempt_id/score", () => {
+
+    
+    
+  
+  
+  });

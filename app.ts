@@ -77,12 +77,12 @@ app.use(handleMySqlErrors);
 app.use(handleCustomErrors);
 app.use(handleServerErrors);
 
-app.listen(8080, (err?: Error) => {
-  if (err) {
-      console.error(err);
-  } else {
-      console.log("Listening on 8080");
-  }
-});
+// app.listen(8080, (err?: Error) => {
+//   if (err) {
+//       console.error(err);
+//   } else {
+//       console.log("Listening on 8080");
+//   }
+// });
 
 export default app;

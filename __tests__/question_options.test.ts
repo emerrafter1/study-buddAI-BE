@@ -21,7 +21,7 @@ describe("POST /question_options", () => {
       label: "B",
     };
     const { body } = await request(app)
-      .post("/question_options")
+      .post("/api/question_options")
       .send(questionOptionRequest)
       .expect(201);
 
@@ -41,7 +41,7 @@ describe("POST /question_options", () => {
       label: "B",
     };
     const { body } = await request(app)
-      .post("/question_options")
+      .post("/api/question_options")
       .send(badQuestionOptionRequest)
       .expect(400);
 
@@ -51,7 +51,7 @@ describe("POST /question_options", () => {
 
 describe("GET /question_options/:question_id", () => {
   test("200", async () => {
-    const { body } = await request(app).get("/question_options/2").expect(200);
+    const { body } = await request(app).get("/api/question_options/2").expect(200);
     const questionOptions = body.questionOptions;
     expect(questionOptions.length).toBe(4);
     questionOptions.forEach((option) => {
@@ -64,13 +64,13 @@ describe("GET /question_options/:question_id", () => {
 
   test("400: Responds with bad request when an invalid request is made", async () => {
     const { body } = await request(app)
-      .get("/question_options/banana")
+      .get("/api/question_options/banana")
       .expect(400);
     expect(body.msg).toBe("Bad request");
   });
 
   test("404: Responds with not found when a valid request when is made and the record does not exist", async () => {
-    const { body } = await request(app).get("/quizzes/799").expect(404);
+    const { body } = await request(app).get("/api/question_options/799").expect(404);
 
     expect(body.msg).toBe("Not found");
   });

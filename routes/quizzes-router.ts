@@ -1,21 +1,16 @@
-// import { postQuizzes, getQuizByUserId, updateQuizById, deleteQuizById } from "../controllers/quizzes_controller";
-// import { Router } from "express";
+import { postQuizzes, getQuizByUserId } from "../controllers/quizzes_controller";
+import { Router } from "express";
 
-// const quizzesRouter = Router();
+const quizzesRouter = Router();
   
-//   quizzesRouter
-//     .route("/quizzes")
-//     .post(postQuizzes);
+  quizzesRouter
+    .post("/", postQuizzes);
   
-//   quizzesRouter
-//     .route("/:user_id")
-//     .get(getQuizByUserId)
+  quizzesRouter
+    .get("/:question_id", getQuizByUserId)
 
   
-//   quizzesRouter
-//     .route("/:quiz_id")
-//     .patch(updateQuizById)
-//     .delete(deleteQuizById);
+
   
 
-//   export default quizzesRouter
+  export default quizzesRouter

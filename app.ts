@@ -16,10 +16,20 @@ const {
 import { apiRouter } from "./routes/api-router";
 import postUsers from "./controllers/users_controller";
 import { getQuizByUserId, postQuizzes } from "./controllers/quizzes_controller";
-import { postOptions, getOptionsByQuestionId } from "./controllers/options_controller";
+import {
+  postOptions,
+  getOptionsByQuestionId,
+} from "./controllers/options_controller";
 import filesRouter from "./routes/files-router";
-import { postAnswerAttempt, getAttemptAnswerByQuestionId } from "./controllers/answers_attempt_controller";
-import {getQuestionsById, postQuestions} from "./controllers/questions_controller"
+
+import {
+  postAnswerAttempt,
+  getAttemptAnswerByQuestionId,
+} from "./controllers/answers_attempt_controller";
+import {
+  getQuestionsById,
+  postQuestions,
+} from "./controllers/questions_controller";
 import { postAttempt } from "./controllers/attempt_controller";
 import { generateQuiz } from "./generateQuiz";
 
@@ -32,12 +42,12 @@ import { generateQuiz } from "./generateQuiz";
 // const { postAttempt, updateQuizAttemptById } = require("../controllers/quiz_attempts_controller")
 
 //MIDDLEWARE
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 // app.use("/api", apiRouter);
 app.use("/files", filesRouter);
 
-app.get("/", (req, res)=> {
+app.get("/", (req, res) => {
   res.send("Server running");
 });
 
@@ -48,29 +58,28 @@ app.post("/api/users", postUsers);
 // app.post("/upload", uploadFiles)
 
 // //Quizzes
-app.post("/quizzes", postQuizzes)
-app.get("/quizzes/:user_id", getQuizByUserId);
+app.post("/api/quizzes", postQuizzes);
+app.get("/api/quizzes/:user_id", getQuizByUserId);
 // app.patch("/quizzes/:quiz_id", updateQuizById) //quizzes/:quiz_id/scores ??git
 // app.delete("/quizzes/:quid_id", deleteQuizById) // to be added later
 
 // //Quiz Questions
-app.post("/api/questions", postQuestions )
-app.get("/api/questions/:quiz_id", getQuestionsById)
+app.post("/api/questions", postQuestions);
+app.get("/api/questions/:quiz_id", getQuestionsById);
 
 // //Question Options
-app.post("/question_options", postOptions)
-app.get("/question_options/:question_id", getOptionsByQuestionId)
+app.post("/api/question_options", postOptions);
+app.get("/api/question_options/:question_id", getOptionsByQuestionId);
 
 // //Attempted answers
-app.get("/attempt_answer/:question_id", getAttemptAnswerByQuestionId)
-app.post("/attempt_answer", postAnswerAttempt) //poat answer
+app.get("/api/attempt_answer/:question_id", getAttemptAnswerByQuestionId);
+app.post("/api/attempt_answer", postAnswerAttempt); //poat answer
 
 // //Quiz attempt
-app.post("/attempt", postAttempt) //posts to db
+app.post("/api/attempt", postAttempt); //posts to db
 // app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
 
-
-app.post("/generate_quiz", generateQuiz )
+app.post("/generate_quiz", generateQuiz);
 
 // // *******************************************************************************
 
@@ -90,6 +99,5 @@ app.use(handleServerErrors);
 //       console.log("Listening on 8080");
 //   }
 // });
-
 
 export default app;

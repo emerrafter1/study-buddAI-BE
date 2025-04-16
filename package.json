@@ -4,7 +4,7 @@
   "main": "test.js",
   "type": "commonjs",
   "scripts": {
-    "test": "jest -verbose",
+    "test": "jest --runInBand",
     "setup-db": "mysql -u root -p $MYSQL_DATABASE < ./db/setup-dbs.sql",
     "seed": "node ./db/seeds/run-seed.js",
     "compile-seed": "npx tsc db/seeds/seed.ts",

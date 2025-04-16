@@ -7,7 +7,7 @@ var question_options_1 = require("./question-options");
 var questions_data_1 = require("./questions-data");
 var quizzes_data_1 = require("./quizzes-data");
 var user_data_1 = require("./user-data");
-var devData = {
+var testData = {
     attemptAnswerData: attempts_answers_1.default,
     attemptData: attempts_data_1.default,
     filesData: files_data_1.default,
@@ -16,4 +16,4 @@ var devData = {
     quizzesData: quizzes_data_1.default,
     usersData: user_data_1.default,
 };
-exports.default = devData;
+exports.default = testData;

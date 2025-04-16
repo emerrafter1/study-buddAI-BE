@@ -1,4 +1,4 @@
-// import { postQuizzes, getQuizByUserId, updateQuizById, deleteQuizById } from "../controllers/quizzes_controller";
+// import { postQuizzes, getQuizByUserId } from "../controllers/quizzes_controller";
 // import { Router } from "express";
 
 // const quizzesRouter = Router();
@@ -12,10 +12,6 @@
 //     .get(getQuizByUserId)
 
   
-//   quizzesRouter
-//     .route("/:quiz_id")
-//     .patch(updateQuizById)
-//     .delete(deleteQuizById);
   
 
 //   export default quizzesRouter

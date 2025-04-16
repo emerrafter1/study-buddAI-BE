@@ -14,6 +14,7 @@ const {
 } = require("./controllers/errors.controller");
 
 import { apiRouter } from "./routes/api-router";
+// import quizzesRouter from "./routes/quizzes-router";
 import postUsers from "./controllers/users_controller";
 import { getQuizByUserId, postQuizzes } from "./controllers/quizzes_controller";
 import { postOptions, getOptionsByQuestionId } from "./controllers/options_controller";
@@ -34,27 +35,30 @@ import { generateQuiz } from "./generateQuiz";
 //MIDDLEWARE
 app.use(cors())
 app.use(express.json());
-// app.use("/api", apiRouter);
+app.use("/api", apiRouter);
 app.use("/files", filesRouter);
+// app.use("/quizzes", quizzesRouter);
 
 app.get("/", (req, res)=> {
   res.send("Server running");
 });
 
 // //Users
-app.post("/users", postUsers);
+app.post("/api/users", postUsers);
 
 // //PDF files
 // app.post("/upload", uploadFiles)
 
 // //Quizzes
-app.post("/quizzes", postQuizzes)
-app.get("/quizzes/:user_id", getQuizByUserId);
+//add in router
+// app.post("/api/quizzes", postQuizzes)
+// app.get("/api/quizzes/:user_id", getQuizByUserId);
+
 // app.patch("/quizzes/:quiz_id", updateQuizById) //quizzes/:quiz_id/scores ??git
 // app.delete("/quizzes/:quid_id", deleteQuizById) // to be added later
 
 // //Quiz Questions
-app.post("/questions", postQuestions )
+app.post("/api/questions", postQuestions )
 app.get("/questions/:quiz_id", getQuestionsById)
 
 // //Question Options
@@ -66,7 +70,7 @@ app.get("/attempt_answer/:question_id", getAttemptAnswerByQuestionId)
 app.post("/attempt_answer", postAnswerAttempt) //poat answer
 
 // //Quiz attempt
-app.post("/attempt", postAttempt) //posts to db
+app.post("/api/attempt", postAttempt) //posts to db
 // app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
 
 

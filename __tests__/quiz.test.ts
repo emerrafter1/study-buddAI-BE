@@ -24,7 +24,7 @@ describe("GET /quizzes/:user_id", () => {
   });
 
   test("200", async () => {
-    const { body } = await request(app).get("/quizzes/1").expect(200);
+    const { body } = await request(app).get("/quizzes/2").expect(200);
     const quizzes = body.quizzes;
     expect(quizzes.length).toBe(2);
     quizzes.forEach((quiz) => {

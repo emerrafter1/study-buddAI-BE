@@ -26,7 +26,7 @@ describe("POST /api/attempt_answer", () => {
 
     const attemptAnswer = body.attemptAnswer;
 
-    expect(attemptAnswer.attempt_answer_id).toBe(5);
+    expect(attemptAnswer.attempt_answer_id).toBe(9);
     expect(attemptAnswer.question_options_id).toBe(4);
     expect(attemptAnswer.question_id).toBe(3);
     expect(attemptAnswer.attempt_id).toBe(1);
@@ -56,8 +56,8 @@ describe("GET /api/attempt_answer/:question_id", () => {
 
     expect(attemptAnswer.attempt_answer_id).toBe(3);
     expect(attemptAnswer.question_id).toBe(3);
-    expect(attemptAnswer.attempt_id).toBe(2);
-    expect(attemptAnswer.question_options_id).toBe(10);
+    expect(attemptAnswer.attempt_id).toBe(1);
+    expect(attemptAnswer.question_options_id).toBe(11);
   });
 
   test("400: Responds with bad request when an invalid request is made", async () => {

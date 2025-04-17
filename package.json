@@ -8,7 +8,10 @@
     "setup-db": "mysql -u root -p $MYSQL_DATABASE < ./db/setup-dbs.sql",
     "seed": "node ./db/seeds/run-seed.js",
     "compile-seed": "npx tsc db/seeds/seed.ts",
-    "dev": "nodemon --exec ts-node app.ts"
+    "dev": "nodemon --exec ts-node app.ts",
+    "start": "ts-node listen.ts",
+    "test-seed": "jest seed.test.ts",
+    "seed-prod": "NODE_ENV=production npm run seed-dev"
   },
   "keywords": [],
   "author": "",

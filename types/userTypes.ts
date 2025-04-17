@@ -1,6 +1,6 @@
-interface User {
-    user_id: number;
+// interface User {
+//     user_id: number;
     
-  }
+//   }
 
-  export type { User };
+//   export type { User };

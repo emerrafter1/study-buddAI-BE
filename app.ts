@@ -30,8 +30,9 @@ import {
   getQuestionsById,
   postQuestions,
 } from "./controllers/questions_controller";
-import { postAttempt } from "./controllers/attempt_controller";
-import { generateQuiz } from "./generateQuiz";
+import { postAttempt, postResults } from "./controllers/attempt_controller";
+import { generateQuiz } from "./controllers/quizzes_controller";
+
 
 // const { getEndpoints } = require("./controllers/endpoints_controller")
 // const { uploadFiles } = require("../controllers/files_controller")
@@ -73,13 +74,17 @@ app.get("/api/question_options/:question_id", getOptionsByQuestionId);
 
 // //Attempted answers
 app.get("/api/attempt_answer/:question_id", getAttemptAnswerByQuestionId);
-app.post("/api/attempt_answer", postAnswerAttempt); //poat answer
+app.post("/api/attempt_answer", postAnswerAttempt);
+ //poat answer
 
 // //Quiz attempt
 app.post("/api/attempt", postAttempt); //posts to db
+app.post("/api/attempt/:attempt_id/submit", postResults); //posts to db
+
 // app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
 
-app.post("/generate_quiz", generateQuiz);
+app.post("/api/:user_id/generate_quiz", generateQuiz);
+
 
 // // *******************************************************************************
 

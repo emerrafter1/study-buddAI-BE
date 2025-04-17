@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { insertAttempt } from "../models/attempt_models";
+import { generateResults } from "../generateResults";
 
 export const postAttempt = async (
   req: Request,
@@ -11,6 +12,16 @@ export const postAttempt = async (
   try {
     const attempt = await insertAttempt(quiz_id);
     res.status(201).send({ attempt });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const postResults = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const attemptId = Number(req.params.attempt_id);
+    const result = await generateResults(attemptId);
+    res.status(201).send({result});
   } catch (err) {
     next(err);
   }

@@ -9,8 +9,14 @@ import multer from 'multer';
   fileFilter: (req, file, cb) => {
 
     if (file.mimetype === 'application/pdf') {
+
       cb(null, true);
     } else {
+
+
+      cb(null, true);
+    } else {
+
       cb(new Error('Not a valid PDF file'))
     }
 

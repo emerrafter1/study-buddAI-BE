@@ -3,11 +3,13 @@ import  extractTextFromPdf from "../services/pdfParse";
 import insertFileData from "../models/files_model";
 
 const uploadFiles = async (req: Request, res: Response): Promise<void> => {
+
   console.log("File received:", {
     originalname: req.file?.originalname,
     mimetype: req.file?.mimetype,
     size: req.file?.size,
   });
+
   try {
     if (!req.file) {
        res.status(400).json({ error: "No PDF uploaded" });

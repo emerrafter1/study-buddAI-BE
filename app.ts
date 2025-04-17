@@ -31,7 +31,7 @@ import {
   postQuestions,
 } from "./controllers/questions_controller";
 import { postAttempt, postResults } from "./controllers/attempt_controller";
-import { generateQuiz } from "./generateQuiz";
+import { generateQuiz } from "./controllers/quizzes_controller";
 
 
 // const { getEndpoints } = require("./controllers/endpoints_controller")
@@ -83,7 +83,7 @@ app.post("/api/attempt/:attempt_id/submit", postResults); //posts to db
 
 // app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
 
-app.post("/generate_quiz", generateQuiz);
+app.post("/api/:user_id/generate_quiz", generateQuiz);
 
 
 // // *******************************************************************************

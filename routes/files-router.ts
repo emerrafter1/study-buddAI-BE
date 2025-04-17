@@ -9,9 +9,10 @@ filesRouter.get('/test', (req, res) => {
 });
 
 filesRouter.post('/upload', 
-  upload.single('file'), 
-  uploadFiles, 
-  multerErrorHandler)
+  upload.single('file'),
+  multerErrorHandler, 
+  uploadFiles
+  )
  
 
 export default filesRouter;

@@ -1,14 +1,12 @@
-// import { postQuizAttempt, updateQuizAttemptById } from "../controllers/quiz_attempts_controller";
-// import { Router } from "express";
 
-//  const quizAttemptsRouter = Router();
+import { postAttempt } from "../controllers/attempt_controller";
+import { Router } from "express";
 
-// quizAttemptsRouter
-//     .route("/attempt")
-//     .post(postQuizAttempt)
+ const quizAttemptsRouter = Router();
 
-// quizAttemptsRouter
-//     .route("/attempt/:attempt_id")
-//     .patch(updateQuizAttemptById)
+quizAttemptsRouter
+    .post("/", postAttempt)
 
-// export default quizAttemptsRouter;
+
+
+export default quizAttemptsRouter;

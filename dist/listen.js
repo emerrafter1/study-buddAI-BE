@@ -9,6 +9,6 @@ app_1.default.listen(8080, (err) => {
         console.error(err);
     }
     else {
-        console.log("Listening on 8080");
+        // console.log("Listening on 8080");
     }
 });

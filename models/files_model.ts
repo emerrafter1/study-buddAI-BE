@@ -1,7 +1,7 @@
 
 import db from "../db/connection";
 
-const insertFileData = async (text:string) => {
+const insertFileData = async (text:string, user_id:number) => {
   let dbConnection = await db.getConnection();
 
   try {
@@ -9,7 +9,7 @@ const insertFileData = async (text:string) => {
       `INSERT INTO files 
        (file_text, user_id)
        VALUES (?, ?)`,
-      [text, 2]
+      [text, user_id]
     );
     return query;
 

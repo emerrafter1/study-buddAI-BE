@@ -14,7 +14,7 @@ const uploadFiles = async (req: Request, res: Response): Promise<void> => {
     }
 
     const { text } = await extractTextFromPdf(file.buffer);
-    await insertFileData.insertFileData(text);
+    await insertFileData(text);
 
 
     res.status(201).json({

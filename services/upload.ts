@@ -12,11 +12,7 @@ import multer from 'multer';
 
       cb(null, true);
     } else {
-
-
-      cb(null, true);
-    } else {
-
+      
       cb(new Error('Not a valid PDF file'))
     }
 

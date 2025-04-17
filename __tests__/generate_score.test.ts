@@ -13,13 +13,29 @@ afterAll(() => {
   return db.end();
 });
 
-describe("GET /quizzes/:user_id", () => {
+type ResultQuestions = {
+  attempted_answer: string;
+  correct_answer: string;
+  question_body: string;
+};
+
+describe("POST /api/attempt/1/submit", () => {
   test("200", async () => {
-
-
     const { body } = await request(app)
       .post("/api/attempt/1/submit")
       .expect(201);
-    console.log(body);
+    
+
+    const results = body.result;
+    const resultsQuestions = results.questions as ResultQuestions[];
+
+    expect(results.questions.length).toBe(4);
+    expect(results.score).toBe(0.25);
+    expect(resultsQuestions.length).toBe(4);
+    resultsQuestions.forEach((result) => {
+      expect(result.attempted_answer).toBeDefined();
+      expect(result.question_body).toBeDefined();
+      expect(result.correct_answer).toBeDefined;
+    });
   });
 });

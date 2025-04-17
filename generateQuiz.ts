@@ -5,13 +5,13 @@ import { insertQuiz } from "./models/quizzes_model";
 import { insertQuestion } from "./models/questions_model";
 import { insertQuestionOption } from "./models/options_model";
 
-const questionsAmount = 3;
-
-const quiz_name = "Cheese test quiz"; // get from front end input
-
 const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 
-export const generateQuiz = async (user_id: number) => {
+export const createQuiz = async (user_id: number, quiz_name: string) => {
+
+  const questionsAmount = 4;
+  const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
+  
   // 1. get the file contents from the db
 
   const [rows] = await db.query(`SELECT * FROM files WHERE user_id = ?`, [
@@ -77,5 +77,5 @@ export const generateQuiz = async (user_id: number) => {
     }
   }
 
-  return quizData
+  return quizData;
 };

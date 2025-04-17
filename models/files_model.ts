@@ -23,6 +23,6 @@ const insertFileData = async (text:string) => {
 };
 
 
-export default {
-  insertFileData,
-};
+export default 
+  insertFileData
+;

@@ -2,7 +2,6 @@ import express from 'express';
 import upload from '../services/upload';
 import uploadFiles from '../controllers/files_controller';
 const filesRouter = express.Router();
-import { Response, Request } from 'express';
 import multerErrorHandler from '../middleware/multerErrorHandler';
 
 filesRouter.get('/test', (req, res) => {
@@ -10,9 +9,10 @@ filesRouter.get('/test', (req, res) => {
 });
 
 filesRouter.post('/upload', 
-  upload.single('file'), 
-  uploadFiles, 
-  multerErrorHandler)
+  upload.single('file'),
+  multerErrorHandler, 
+  uploadFiles
+  )
  
 
 export default filesRouter;

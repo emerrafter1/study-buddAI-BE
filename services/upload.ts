@@ -1,6 +1,5 @@
 import multer from 'multer';
 
-//MEMORY STORAGE
  const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
@@ -10,10 +9,10 @@ import multer from 'multer';
   fileFilter: (req, file, cb) => {
 
     if (file.mimetype === 'application/pdf') {
-      // console.log(file, "<<<<<<file in Multer")
+
       cb(null, true);
     } else {
-      // console.log("not a pdf")
+      
       cb(new Error('Not a valid PDF file'))
     }
 

@@ -14,7 +14,12 @@ const uploadFiles = async (req: Request, res: Response): Promise<void> => {
     }
 
     const { text } = await extractTextFromPdf(file.buffer);
-    await insertFileData(text);
+    const user_id= parseInt(req.body.user_id)
+    if (isNaN(user_id)) {
+      res.status(400).json({ error: "Invalid user ID" });
+      return;
+    }
+    await insertFileData(text, user_id);
 
 
     res.status(201).json({

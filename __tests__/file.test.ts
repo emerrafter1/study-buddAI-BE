@@ -21,6 +21,7 @@ describe("POST /files/upload", () => {
     const response = await request(app)
       .post("/files/upload")
       .attach('file', testPdfPath)
+      .field("user_id", "1")
       .expect(201);
     expect(response.body.success).toBe(true);
     });

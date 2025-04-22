@@ -19,9 +19,10 @@ WHERE aa.attempt_id = ?
 
   const [rows2] = await db.query(
     `SELECT COUNT(*) AS total_questions
-FROM study_buddai_test.attemptAnswer
-WHERE attempt_id = ?;
-`,
+FROM attemptAnswer
+WHERE attempt_id = ?;`
+
+,
     [attempt_id]
   );
 
@@ -32,22 +33,20 @@ WHERE attempt_id = ?;
 
   const [questionResults] = await db.query(
     `SELECT
-  q.question_body,
-  attempted.option_body AS attempted_answer,
-  correct.option_body AS correct_answer
-FROM study_buddai_test.attemptAnswer aa
-JOIN study_buddai_test.questions q
-  ON aa.question_id = q.question_id
-JOIN study_buddai_test.questionOptions attempted
-  ON aa.question_options_id = attempted.question_options_id
-JOIN study_buddai_test.questionOptions correct
-  ON correct.question_id = q.question_id AND correct.is_correct = TRUE
-WHERE aa.attempt_id = ?;
+    q.question_body,
+    attempted.option_body AS attempted_answer,
+    correct.option_body AS correct_answer
+  FROM attemptAnswer aa
+  JOIN questions q
+    ON aa.question_id = q.question_id
+  JOIN questionOptions attempted
+    ON aa.question_options_id = attempted.question_options_id
+  JOIN questionOptions correct
+    ON correct.question_id = q.question_id AND correct.is_correct = TRUE
+  WHERE aa.attempt_id = ?;
 `,
     [attempt_id]
   );
-
-
 
   await db.query(`UPDATE attempt SET score = ? where attempt_id = ? `, [
     score,
@@ -58,7 +57,6 @@ WHERE aa.attempt_id = ?;
     questions: questionResults,
     score: score,
   };
-
 
   return overallResult;
 };

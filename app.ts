@@ -83,7 +83,7 @@ app.get("/api/attempt/:attempt_id/submit", postResults); //posts to db
 
 // app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
 
-app.post("/api/:user_id/generate_quiz", generateQuiz);
+app.post("/api/users/:user_id/generate_quiz", generateQuiz);
 
 
 // // *******************************************************************************

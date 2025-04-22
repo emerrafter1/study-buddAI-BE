@@ -43,17 +43,23 @@ export const generateQuiz = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { quiz_name } = req.body;
+
+  console.log('Received request with:', {
+    params: req.params,
+    body: req.body
+  })
+  const { quiz_name, file_id } = req.body;
   const {user_id} = req.params
   const userId = Number(user_id)
-
- 
+  const fileId = Number(file_id)
 
   try {
-    const quiz = await createQuiz(userId, quiz_name);
+    const quiz = await createQuiz(userId, quiz_name, fileId);
     res.status(201).send({ quiz });
   } catch (err) {
-   
+    console.error('FULL ERROR:', err)
     next(err);
   }
 };
+
+

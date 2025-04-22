@@ -7,17 +7,17 @@ import { insertQuestionOption } from "./models/options_model";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 
-export const createQuiz = async (user_id: number, quiz_name: string) => {
+export const createQuiz = async (user_id: number, quiz_name: string, file_id:number) => {
 
   const questionsAmount = 4;
   const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
   
   // 1. get the file contents from the db
 
-  const [rows] = await db.query(`SELECT * FROM files WHERE user_id = ?`, [
-    user_id,
+  const [rows] = await db.query(`SELECT * FROM files WHERE file_id = ? AND user_id = ?`, [
+    file_id, user_id,
   ]);
-
+  // console.log('Database query results:', rows)
   // send the file text to the gemini api
 
   const fileText = rows[0].file_text;

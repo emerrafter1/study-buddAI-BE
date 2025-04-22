@@ -19,12 +19,13 @@ const uploadFiles = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ error: "Invalid user ID" });
       return;
     }
-    await insertFileData(text, user_id);
+  const {file_id} = await insertFileData(text, user_id);
 
 
     res.status(201).json({
       success: true,
       message: "PDF text saved to database",
+      file_id: file_id
     });
   } catch (err) {
     console.error("PDF extraction failed:", err);

@@ -55,7 +55,9 @@ export const generateQuiz = async (
 
   try {
     const quiz = await createQuiz(userId, quiz_name, fileId);
-    res.status(201).send({ quiz });
+    res.status(201).send({  quiz_id: quiz.quiz_id,
+      name: quiz_name,
+      message: "Quiz generated successfully" });
   } catch (err) {
     console.error('FULL ERROR:', err)
     next(err);

@@ -79,7 +79,7 @@ app.post("/api/attempt_answer", postAnswerAttempt);
 
 // //Quiz attempt
 app.post("/api/attempt", postAttempt); //posts to db
-app.post("/api/attempt/:attempt_id/submit", postResults); //posts to db
+app.get("/api/attempt/:attempt_id/submit", postResults); //posts to db
 
 // app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
 
@@ -97,10 +97,10 @@ app.use(handleMySqlErrors);
 app.use(handleCustomErrors);
 app.use(handleServerErrors);
 
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
 
 export default app;

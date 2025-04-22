@@ -19,10 +19,10 @@ type ResultQuestions = {
   question_body: string;
 };
 
-describe("POST /api/attempt/1/submit", () => {
+describe("GET /api/attempt/1/submit", () => {
   test("200", async () => {
     const { body } = await request(app)
-      .post("/api/attempt/1/submit")
+      .get("/api/attempt/1/submit")
       .expect(201);
     
 

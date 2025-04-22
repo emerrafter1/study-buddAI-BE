@@ -23,12 +23,12 @@ describe("GET /api/attempt/1/submit", () => {
   test("200", async () => {
     const { body } = await request(app)
       .get("/api/attempt/1/submit")
-      .expect(201);
+      .expect(200);
     
 
     const results = body.result;
     const resultsQuestions = results.questions as ResultQuestions[];
-
+    console.log(results)
     expect(results.questions.length).toBe(4);
     expect(results.score).toBe(0.25);
     expect(resultsQuestions.length).toBe(4);

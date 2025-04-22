@@ -6,11 +6,12 @@ type TotalQuestions = { total_questions: number };
 export const generateResults = async (attempt_id: number) => {
   const [rows] = await db.query(
     `SELECT COUNT(*) AS total_correct
-FROM study_buddai_test.attemptAnswer aa
-JOIN study_buddai_test.questionOptions qo 
+FROM attemptAnswer aa
+JOIN questionOptions qo 
   ON aa.question_options_id = qo.question_options_id
 WHERE aa.attempt_id = ?
-  AND qo.is_correct = TRUE;`,
+  AND qo.is_correct = TRUE;`
+,
     [attempt_id]
   );
 

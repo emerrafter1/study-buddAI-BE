@@ -117,10 +117,10 @@ export const createQuiz = async (params: QuizParams) => {
     throw new Error("quizString is undefined");
   }
   const quizData = JSON.parse(quizString);
-  console.log(quizData.questions[0].options)
+  // console.log(quizData.questions[0].options)
 
   // insert into Quiz table
-  console.log(typeof (params.file_id), "line 31")
+  // console.log(typeof (params.file_id), "line 31")
   const quizInsert = await insertQuiz(params.user_id, params.quiz_name, params.file_id);
 
   const newQuizId = quizInsert.quiz_id;

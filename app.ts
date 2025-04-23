@@ -34,6 +34,8 @@ import { postAttempt, postResults } from "./controllers/attempt_controller";
 import generateQuiz from "./controllers/generateQuiz_controller";
 
 
+
+
 // const { getEndpoints } = require("./controllers/endpoints_controller")
 // const { uploadFiles } = require("../controllers/files_controller")
 
@@ -83,9 +85,9 @@ app.get("/api/attempt/:attempt_id/submit", postResults); //posts to db
 
 // app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
 
-app.post("/api/generate-quiz", generateQuiz);
+// app.post("/api/generate-quiz", generateQuiz);
 
-
+app.post("/api/generate_quiz", generateQuiz ); //use this one
 // // *******************************************************************************
 
 // //ERROR HANDLING
@@ -97,10 +99,10 @@ app.use(handleMySqlErrors);
 app.use(handleCustomErrors);
 app.use(handleServerErrors);
 
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
 
 export default app;

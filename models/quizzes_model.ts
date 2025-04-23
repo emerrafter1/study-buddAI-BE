@@ -34,7 +34,14 @@ export const insertQuiz = async (
   quiz_name: string,
   file_id: number
 ) => {
+
+
+
   const created_at = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+console
+
+  
 console.log(created_at, "<<<<<<LINE 39")
   const [result] = (await db.query(
     `INSERT INTO quizzes (created_at, user_id, quiz_name, file_id) VALUES (?, ?, ?, ?)`,
@@ -47,7 +54,10 @@ console.log(result, "<<<<<<LINE 44")
     newQuizId,
   ]);
 console.log(rows, "<<<<<LINE 50")
-
   const quiz = rows[0] as Quiz;
+  console.log(quiz)
+
   return quiz;
+
+  
 };

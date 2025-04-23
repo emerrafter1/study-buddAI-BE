@@ -14,8 +14,11 @@ interface QuizParams {
 }
 
 export const createQuiz = async (params: QuizParams) => {
+
+
+  
   // Add this debug log immediately
-  console.log('createQuiz received:', params);
+
   // Validate all parameters
   if (Object.values(params).some(val => 
     typeof val === 'number' ? isNaN(val) : !val
@@ -26,6 +29,7 @@ export const createQuiz = async (params: QuizParams) => {
   const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 
 
+
   const [rows] = await db.query<RowDataPacket[]>(
     `SELECT file_text, LENGTH(file_text) as length FROM files WHERE file_id = ?`, 
     [params.file_id]
@@ -34,7 +38,7 @@ export const createQuiz = async (params: QuizParams) => {
   if (!Array.isArray(rows) || !rows.length) {
     throw new Error("No matching file found");
   }
-  console.log(`File contains ${rows[0].length} characters`);
+
   if (rows[0].length > 100000) { // ~100KB
     throw new Error("File too large for processing");
   }
@@ -71,8 +75,8 @@ export const createQuiz = async (params: QuizParams) => {
   const quizData = JSON.parse(quizString);
 
   // insert into Quiz table
-
-  const quizInsert = await insertQuiz(params.user_id, params.quiz_name, fileId);
+  console.log(typeof (params.file_id), "line 31")
+  const quizInsert = await insertQuiz(params.user_id, params.quiz_name, params.file_id);
 
   const newQuizId = quizInsert.quiz_id;
 
@@ -98,10 +102,7 @@ export const createQuiz = async (params: QuizParams) => {
       );
     }
   }
-  console.log("Insert result:", quizInsert); // Verify the insert worked
-  return    {
-    quiz_id: quizInsert.quiz_id, // Ensure this is the correct property name
-    // Include other relevant data if needed
-  };
+  
+  return   newQuizId
 };;
 

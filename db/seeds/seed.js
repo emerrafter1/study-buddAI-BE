@@ -85,7 +85,7 @@ var seed = function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) 
                 return [4 /*yield*/, connection.query("CREATE TABLE questionOptions (\n        question_options_id INT AUTO_INCREMENT PRIMARY KEY,\n        question_id INT NOT NULL, FOREIGN KEY (question_id) REFERENCES questions(question_id),\n        option_body LONGTEXT NOT NULL,\n        is_correct BOOLEAN NOT NULL,\n        label VARCHAR(255) NOT NULL\n      );\n    ")];
             case 14:
                 _j.sent();
-                return [4 /*yield*/, connection.query("CREATE TABLE attempt (\n        attempt_id INT AUTO_INCREMENT PRIMARY KEY,\n        quiz_id INT NOT NULL, FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),\n        score DECIMAL(2,2) DEFAULT 0 \n      );\n    ")];
+                return [4 /*yield*/, connection.query("CREATE TABLE attempt (\n        attempt_id INT AUTO_INCREMENT PRIMARY KEY,\n        quiz_id INT NOT NULL, FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),\n        score DECIMAL(4,2) DEFAULT 0 \n      );\n    ")];
             case 15:
                 _j.sent();
                 //0 total digits can’t hold 2 decimal digits.

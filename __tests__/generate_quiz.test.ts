@@ -13,26 +13,27 @@ afterAll(() => {
 });
 
 describe("POST /api/1/generate_quiz", () => {
-  test.skip("200", async () => {
+  test("200", async () => {
     const quizRequest = {
+      user_id: 1,
       quiz_name: "My quiz about dogs",
+      file_id: 1,
     };
 
     const { body } = await request(app)
-      .post("/api/1/generate_quiz")
+      .post("/api/generate_quiz")
       .send(quizRequest)
       .expect(201);
-  
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    expect(body.quiz_id).toBe(5);
 
-    const quiz = body.quiz;
-    const quizQuestions = quiz.questions;
+    // const quiz = body.quiz;
+    // const quizQuestions = quiz.questions;
 
-    expect(quiz.title).toBe("My quiz about dogs");
-    expect(quizQuestions.length).toBe(4);
-    quizQuestions.forEach((question) => {
-      expect(question.options.length).toBe(4);
-    });
+    // expect(quiz.title).toBe("My quiz about dogs");
+    // expect(quizQuestions.length).toBe(4);
+    // quizQuestions.forEach((question) => {
+    //   expect(question.options.length).toBe(4);
+    // });
   });
 });

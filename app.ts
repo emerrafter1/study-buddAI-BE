@@ -31,7 +31,9 @@ import {
   postQuestions,
 } from "./controllers/questions_controller";
 import { postAttempt, postResults } from "./controllers/attempt_controller";
-import { generateQuiz } from "./controllers/quizzes_controller";
+import generateQuiz from "./controllers/generateQuiz_controller";
+
+
 
 
 // const { getEndpoints } = require("./controllers/endpoints_controller")
@@ -83,9 +85,9 @@ app.get("/api/attempt/:attempt_id/submit", postResults); //posts to db
 
 // app.patch("/attempt/:attempt_id"), updateQuizAttemptById //update score
 
-app.post("/api/users/:user_id/generate_quiz", generateQuiz);
+// app.post("/api/generate-quiz", generateQuiz);
 
-
+app.post("/api/generate_quiz", generateQuiz ); //use this one
 // // *******************************************************************************
 
 // //ERROR HANDLING

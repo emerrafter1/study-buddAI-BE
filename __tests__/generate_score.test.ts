@@ -28,7 +28,7 @@ describe("GET /api/attempt/1/submit", () => {
 
     const results = body.result;
     const resultsQuestions = results.questions as ResultQuestions[];
-    console.log(results)
+    // console.log(results)
     expect(results.questions.length).toBe(4);
     expect(results.score).toBe(0.25);
     expect(resultsQuestions.length).toBe(4);

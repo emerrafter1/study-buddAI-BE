@@ -58,7 +58,51 @@ export const createQuiz = async (params: QuizParams) => {
     contents: createUserContent([
       fileText,
       "\n\n",
-      `Can you make a quiz with ${questionsAmount} multiple questions each with an option A, B, C, D based on the content above with the quiz title of "${params.quiz_name}"? Each question should have a text body and a corresponding array of options objects. Each option object should have a label (A, B, C, D), and an isCorrect  binary key indicating if the answer is correct or not and an option text body. Return the quiz as a JSON object.`,
+      `Can you make a quiz with ${questionsAmount} multiple questions each with an option A, B, C, D based on the content above with the quiz title of "${params.quiz_name}"? Each question should have a text body and a corresponding array of options objects. Each option object should have a label (A, B, C, D), and an isCorrect  binary key indicating if the answer is correct or not and an option text body. Return the quiz as a JSON object.
+      
+      For example in the form of:
+      
+          {
+      title: 'My quiz about dogs',
+      questions:     [
+      {
+        text: 'How many adult teeth does a dog typically have?',
+        options:     [
+      { label: 'A', isCorrect: false, text: '32' },
+      { label: 'B', isCorrect: true, text: '42' },
+      { label: 'C', isCorrect: false, text: '28' },
+      { label: 'D', isCorrect: false, text: '36' }
+    ]
+      },
+      {
+        text: 'What is a unique feature that can be used to identify an individual dog?',
+        options:     [
+      { label: 'A', isCorrect: false, text: '32' },
+      { label: 'B', isCorrect: true, text: '42' },
+      { label: 'C', isCorrect: false, text: '28' },
+      { label: 'D', isCorrect: false, text: '36' }
+    ]
+      },
+      {
+        text: 'Which breed is known for NOT barking?',
+        options:     [
+      { label: 'A', isCorrect: false, text: '32' },
+      { label: 'B', isCorrect: true, text: '42' },
+      { label: 'C', isCorrect: false, text: '28' },
+      { label: 'D', isCorrect: false, text: '36' }
+    ]
+      },
+      {
+        text: 'What is a common behavioral issue observed in dogs?',
+        options:     [
+      { label: 'A', isCorrect: false, text: '32' },
+      { label: 'B', isCorrect: true, text: '42' },
+      { label: 'C', isCorrect: false, text: '28' },
+      { label: 'D', isCorrect: false, text: '36' }
+    ]
+      }
+    ]
+    }`,
     ]),
   });
 
@@ -73,6 +117,7 @@ export const createQuiz = async (params: QuizParams) => {
     throw new Error("quizString is undefined");
   }
   const quizData = JSON.parse(quizString);
+  console.log(quizData.questions[0].options)
 
   // insert into Quiz table
   console.log(typeof (params.file_id), "line 31")

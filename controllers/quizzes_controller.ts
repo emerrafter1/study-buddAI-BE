@@ -44,10 +44,10 @@ export const generateQuiz = async (
   next: NextFunction
 ) => {
 
-  console.log('Received request with:', {
-    params: req.params,
-    body: req.body
-  })
+  // console.log('Received request with:', {
+  //   params: req.params,
+  //   body: req.body
+  // })
   const { quiz_name, file_id } = req.body;
   const {user_id} = req.params
   const userId = Number(user_id)

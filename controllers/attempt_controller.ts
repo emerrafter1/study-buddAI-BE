@@ -23,7 +23,7 @@ export const postResults = async (req: Request, res: Response, next: NextFunctio
     const result = await generateResults(attemptId);
     res.status(200).send({result});
   } catch (err) {
-    console.log(err)
+    // console.log(err)
     next(err);
   }
 };

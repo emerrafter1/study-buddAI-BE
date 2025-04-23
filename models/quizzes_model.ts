@@ -39,23 +39,23 @@ export const insertQuiz = async (
 
   const created_at = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-console
+// console
 
   
-console.log(created_at, "<<<<<<LINE 39")
+// console.log(created_at, "<<<<<<LINE 39")
   const [result] = (await db.query(
     `INSERT INTO quizzes (created_at, user_id, quiz_name, file_id) VALUES (?, ?, ?, ?)`,
     [created_at, user_id, quiz_name, file_id]
   )) as [{ insertId: number }, any];
-console.log(result, "<<<<<<LINE 44")
+// console.log(result, "<<<<<<LINE 44")
   const newQuizId = result.insertId;
 
   const [rows] = await db.query(`SELECT * FROM quizzes WHERE quiz_id = ?`, [
     newQuizId,
   ]);
-console.log(rows, "<<<<<LINE 50")
+// console.log(rows, "<<<<<LINE 50")
   const quiz = rows[0] as Quiz;
-  console.log(quiz)
+  // console.log(quiz)
 
   return quiz;
 

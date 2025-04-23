@@ -3,7 +3,7 @@ import { createQuiz } from "../generateQuizTest";
 
 const generateQuiz = async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
 
     // Validate all fields exist
     if (!req.body.user_id || !req.body.quiz_name || !req.body.file_id) {

@@ -10,8 +10,7 @@ FROM attemptAnswer aa
 JOIN questionOptions qo 
   ON aa.question_options_id = qo.question_options_id
 WHERE aa.attempt_id = ?
-  AND qo.is_correct = TRUE;`
-,
+  AND qo.is_correct = TRUE;`,
     [attempt_id]
   );
 
@@ -21,16 +20,15 @@ WHERE aa.attempt_id = ?
   const [rows2] = await db.query(
     `SELECT COUNT(*) AS total_questions
 FROM attemptAnswer
-WHERE attempt_id = ?;`
+WHERE attempt_id = ?;`,
 
-,
     [attempt_id]
   );
 
   const totalAnswersCount = rows2[0] as TotalQuestions;
   const totalAnswers = totalAnswersCount.total_questions;
 
-  const score = totalCorrect / totalAnswers;
+  let score = totalCorrect / totalAnswers;
 
   const [questionResults] = await db.query(
     `SELECT
@@ -49,6 +47,9 @@ WHERE attempt_id = ?;`
     [attempt_id]
   );
 
+  if (score === 1) {
+    score = Number(score.toFixed(2));
+  }
   await db.query(`UPDATE attempt SET score = ? where attempt_id = ? `, [
     score,
     attempt_id,
